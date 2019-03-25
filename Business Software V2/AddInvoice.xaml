@@ -12,35 +12,45 @@
     >
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
         <Rectangle
             Width="494"
             Height="113"
-            Margin="31,71,275,266"
+            Grid.Row="1"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             AllowDrop="True"
             Drop="ItemsDropped"
             Fill="AliceBlue" />
-        <Label
+        <TextBlock
             x:Name="label"
-            
+            Grid.Row="1"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            HorizontalContentAlignment="Center"
-            VerticalContentAlignment="Center"
-            Content="Drop Invoices Here" IsHitTestVisible="False" Height="36" Width="332" Margin="101,113,367,301" />
+            TextAlignment="Center"
+            Text="Drop Invoices Here" IsHitTestVisible="False" Height="36" Width="332"/>
 
         <TextBlock
             x:Name="textBlock"
             Width="223"
             Height="329"
-            Margin="546,71,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Text="TextBlock"
-            TextWrapping="Wrap" Background="#FFCFCFCF" />
+            Grid.Row="1"
+            TextWrapping="Wrap" Background="#FFCFCFCF" Grid.Column="1" Grid.RowSpan="2"/>
         <ProgressBar x:Name="processingBar" HorizontalAlignment="Left" Height="26" Margin="254,40,0,0" VerticalAlignment="Top" Width="292" IsIndeterminate="True" Visibility="Collapsed"/>
-        <Label x:Name="label1" Content="Output" HorizontalAlignment="Left" Margin="546,22,0,0" VerticalAlignment="Top" Width="223"/>
-        <Label x:Name="label1_Copy" Content="Process Invoices" HorizontalAlignment="Left" Margin="31,22,0,0" VerticalAlignment="Top" Width="494" FontSize="22"/>
+        <Label x:Name="label1" Grid.Column="1" Content="Output" HorizontalAlignment="Left" VerticalAlignment="Center" Width="223"/>
+        <TextBlock x:Name="label1_Copy" Text="Process Invoices" HorizontalAlignment="Left" TextAlignment="Center" VerticalAlignment="Center" Margin="50 0" FontSize="22"/>
     </Grid>
 </Page>
