@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -29,6 +31,7 @@ namespace Business_Software_V2
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
+                
                 // Note that you can have more than one file.
                 string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
 
@@ -37,17 +40,25 @@ namespace Business_Software_V2
 
                 //textBlock.Text = results[0].Email;
                 ProcessedInvoice[] results = null;
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                stopwatch.Start();
+                processingBar.IsIndeterminate = true;
+                processingBar.Visibility = Visibility.Visible;
 
                 var t = Task.Run(() =>
                 {
                     results = InvoiceProcessor.Process(files);
                     this.Dispatcher.Invoke(() =>
                     {
+                        stopwatch.Stop();
                         foreach (ProcessedInvoice inv in results)
                         {
                             textBlock.Text += $"{inv.ABN} : {inv.Email} | GST: {inv.GstRegistered} \n";
-
                         }
+                        textBlock.Text += "\n Time: " + stopwatch.Elapsed;
+                        processingBar.Visibility = Visibility.Visible;
+                        processingBar.IsIndeterminate = false;
+                        processingBar.Value = processingBar.Maximum;
                     });
                 });
 
