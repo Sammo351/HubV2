@@ -15,6 +15,8 @@ namespace Business_Software_V2
         public string ABN;
         public string Email;
         public string GstRegistered;
+        public string Phone;
+        public string CompanyName;
 
     }
 
@@ -59,14 +61,17 @@ namespace Business_Software_V2
             var result = Ocr.Read(path);
             Regex rx = new Regex(@"(\d{3}\s*\d{3}\s*\d{3}\s*\d{2})|(\d{2}\s *\d{3}\s *\d{3}\s*\d{3})", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
             Regex email = new Regex(@"[\w\d\-]*[@][\w\d\-]*(.com.au|.com)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            Regex phone = new Regex(@"(?:\+?61|0)[2-478 ](?:[ -]?[0-9]){8}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-            MatchCollection match1 = email.Matches(result.Text);
-            //Console.WriteLine("Email: " + match1[0].Value);
+            
 
+            
+            Match emailMatch = email.Match(result.Text);
+            MatchCollection abnMatch = rx.Matches(result.Text);
+            Match phoneMatch = phone.Match(result.Text);
 
-            MatchCollection matches = rx.Matches(result.Text);
             string abn = "";
-            foreach (Match match in matches)
+            foreach (Match match in abnMatch)
             {
                 GroupCollection groups = match.Groups;
                 abn = groups[0].Value;
@@ -74,7 +79,7 @@ namespace Business_Software_V2
             }
 
             string input = new WebClient().DownloadString(@"https://abr.business.gov.au/ABN/View?id=" + abn.Replace(" ", ""));
-
+            File.Copy()
             // string text = 
           
             Regex abnRegistered = new Regex(@"<th>Goods &amp;.*\s+<td>\s*(.*)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -86,9 +91,43 @@ namespace Business_Software_V2
                 gstRegistered = groups[1].Value.Replace("&nbsp;", " ");
             }
 
-            ProcessedInvoice processedInvoice = new ProcessedInvoice() { ABN = abn, GstRegistered = gstRegistered };
+            string potentialCompanyName = FindLargestText(result);
+
+            ProcessedInvoice processedInvoice = new ProcessedInvoice() { ABN = abn, GstRegistered = gstRegistered, Email = emailMatch.Value, Phone = phoneMatch.Value, CompanyName=potentialCompanyName  };
+
             return processedInvoice;
 
+        }
+
+        public static string FindLargestText(OcrResult result)
+        {
+            
+            OcrResult.OcrWord largestWord = result.Pages[0].Words[0];
+
+            for(int i = 0; i < result.Pages[0].Words.Length; i++)
+            {
+                if (result.Pages[0].Words[i].FontSize > largestWord.FontSize)
+                    largestWord = result.Pages[0].Words[i];
+            }
+
+            int lineNumber = largestWord.LineNumber;
+            int numberInLine = largestWord.WordNumber;
+            
+            var lineOfText = result.Pages[0].LinesOfText[lineNumber-1];
+            int f = numberInLine;
+            string textInLine = "";
+            
+            for(int i = 0; i < lineOfText.WordCount; i++)
+            {
+                if (lineOfText.Words[i].FontSize == largestWord.FontSize)
+                {
+                    textInLine += " " + lineOfText.Words[i].Text;
+                }
+                else
+                    break;
+            }
+
+            return textInLine;
         }
 
 

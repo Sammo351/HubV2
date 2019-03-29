@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Business_Software_V2.Data;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -25,6 +26,7 @@ namespace Business_Software_V2
         public AddInvoice()
         {
             InitializeComponent();
+
         }
 
         private void ItemsDropped(object sender, DragEventArgs e)
@@ -54,6 +56,7 @@ namespace Business_Software_V2
                         foreach (ProcessedInvoice inv in results)
                         {
                             textBlock.Text += $"{inv.ABN} : {inv.Email} | GST: {inv.GstRegistered} \n";
+                            TryABN(inv);
                         }
                         textBlock.Text += "\n Time: " + stopwatch.Elapsed;
                         processingBar.Visibility = Visibility.Visible;
@@ -67,6 +70,23 @@ namespace Business_Software_V2
 
 
             }
+        }
+
+        void TryABN(ProcessedInvoice inv)
+        {
+            if (!ABNHelper.DoesABNExist(inv.ABN))
+            {
+                string text = $"ABN Not found: {inv.ABN}, would you like to create a new folder for {inv.ABN}?";
+                var response = MessageBox.Show(text, "ABN not found", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes);
+
+                if (response == MessageBoxResult.Yes)
+                {
+                    NewABN newABN = new NewABN();
+                    newABN.DataContext = new ABNData() { ABN = inv.ABN, Email=inv.Email, Phone=inv.Phone, CompanyName=inv.CompanyName };
+                    newABN.Show();
+                }
+            }
+
         }
 
 

@@ -11,14 +11,14 @@
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="40" />
+            <RowDefinition Height="20" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Rectangle Fill="AliceBlue" />
         <Label
             HorizontalAlignment="Center"
             Content="Hub V2"
-            FontSize="20"
+            FontSize="10"
             FontStretch="Expanded"
             FontWeight="Bold" />
         <Frame

@@ -1,0 +1,41 @@
+﻿<Window
+    x:Class="Business_Software_V2.NewABN"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Business_Software_V2"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="NewABN"
+    Width="430"
+    Height="264"
+    mc:Ignorable="d">
+    <StackPanel Margin="10">
+        <Label>ABN</Label>
+        <TextBox Name="ABN" Text="{Binding ABN}" />
+
+        <Label>Company Name</Label>
+        <TextBox Name="Company" Text="{Binding CompanyName}" />
+
+        <Label>Email</Label>
+        <TextBox Name="Email" Text="{Binding Email}" />
+
+        <Label>Phone Number</Label>
+        <TextBox Name="Phone" Text="{Binding Phone}" />
+
+        <StackPanel
+            Margin="0,10"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Orientation="Horizontal">
+            <Button
+                Margin="10,0"
+                Padding="4"
+                Content="Cancel" />
+            <Button
+                Margin="10,0"
+                Padding="4"
+                Click="AcceptNewABN"
+                Content="Ok" />
+        </StackPanel>
+    </StackPanel>
+</Window>
