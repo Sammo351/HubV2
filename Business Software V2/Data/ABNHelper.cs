@@ -10,7 +10,7 @@ namespace Business_Software_V2.Data
 {
     public static class ABNHelper
     {
-        static string defaultPath = @"E:\Desktop\Hub Test Folder";
+        static string defaultPath = @"D:\Desktop\Hub Test Folder";
 
         public static bool DoesABNExist(string abn)
         {
@@ -24,8 +24,18 @@ namespace Business_Software_V2.Data
 
         public static void CreateDirectory(string abn)
         {
+            if (!Directory.Exists(defaultPath))
+                Directory.CreateDirectory(defaultPath);
+
             if (!Directory.Exists(defaultPath + "\\" + abn))
                 Directory.CreateDirectory(defaultPath + "\\" + abn);
+        }
+
+        public static void CreateDirectoryFromPath(string path)
+        {
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
         }
 
         public static void SetupInfoFile(ABNData data)

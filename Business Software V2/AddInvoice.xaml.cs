@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -86,6 +87,17 @@ namespace Business_Software_V2
                     newABN.Show();
                 }
             }
+
+            string path = ABNHelper.GetDirectory(inv.ABN);
+            string iPath = System.IO.Path.Combine(path, "Invoices"); 
+
+            ABNHelper.CreateDirectoryFromPath(iPath);
+
+            string tPath = System.IO.Path.Combine(iPath, DateTime.Now.ToShortTimeString() + ".pdf");
+            
+            File.Copy(inv.FilePath, tPath, false);
+            
+
 
         }
 

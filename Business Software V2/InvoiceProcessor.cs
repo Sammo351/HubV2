@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Business_Software_V2.Data;
 using IronOcr;
 
 namespace Business_Software_V2
@@ -17,6 +18,7 @@ namespace Business_Software_V2
         public string GstRegistered;
         public string Phone;
         public string CompanyName;
+        public string FilePath;
 
     }
 
@@ -79,8 +81,9 @@ namespace Business_Software_V2
             }
 
             string input = new WebClient().DownloadString(@"https://abr.business.gov.au/ABN/View?id=" + abn.Replace(" ", ""));
-            File.Copy()
+
             // string text = 
+            
           
             Regex abnRegistered = new Regex(@"<th>Goods &amp;.*\s+<td>\s*(.*)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
             MatchCollection abnCollection = abnRegistered.Matches(input);
@@ -93,7 +96,7 @@ namespace Business_Software_V2
 
             string potentialCompanyName = FindLargestText(result);
 
-            ProcessedInvoice processedInvoice = new ProcessedInvoice() { ABN = abn, GstRegistered = gstRegistered, Email = emailMatch.Value, Phone = phoneMatch.Value, CompanyName=potentialCompanyName  };
+            ProcessedInvoice processedInvoice = new ProcessedInvoice() { ABN = abn, GstRegistered = gstRegistered, Email = emailMatch.Value, Phone = phoneMatch.Value, CompanyName = potentialCompanyName, FilePath = path  };
 
             return processedInvoice;
 
