@@ -19,14 +19,16 @@ namespace Business_Software_V2
             foreach (string abn in abns)
             {
                 string dir = abn + @"\Invoices";
-
-                string[] Invoices = Directory.GetFiles(dir);
-                foreach(string s in Invoices)
+                if (Directory.Exists(dir))
                 {
-                    DataInvoice invoice = new DataInvoice();
-                    invoice.ABN = Path.GetFileName(abn);
-                    invoice.FilePath = s;
-                    invoices.Add(invoice);
+                    string[] Invoices = Directory.GetFiles(dir);
+                    foreach (string s in Invoices)
+                    {
+                        DataInvoice invoice = new DataInvoice();
+                        invoice.ABN = Path.GetFileName(abn);
+                        invoice.FilePath = s;
+                        invoices.Add(invoice);
+                    }
                 }
             }
 

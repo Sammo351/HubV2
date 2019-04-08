@@ -10,7 +10,9 @@ namespace Business_Software_V2.Data
 {
     public static class ABNHelper
     {
-        public static string defaultPath = @"D:\Desktop\Hub Test Folder";
+        public static Action UpdatedBusinessCard;
+
+        public static string defaultPath = @"E:\Desktop\Hub Test Folder";
 
         public static bool DoesABNExist(string abn)
         {
@@ -54,9 +56,15 @@ namespace Business_Software_V2.Data
         {
             //THIS ERRORS WHEN ADDING A NEW ABN
             string path = GetDirectory(abn) + "/company.info";
-            string text = File.ReadAllText(path);
-            var data = JsonConvert.DeserializeObject<ABNData>(text);
-            return data.CompanyName;
+            if (File.Exists(path))
+            {
+                string text = File.ReadAllText(path);
+                var data = JsonConvert.DeserializeObject<ABNData>(text);
+                return data.CompanyName;
+            }
+            else
+                return "Company N/A";
+            
         }
 
         public static string[] GetAllABNs()

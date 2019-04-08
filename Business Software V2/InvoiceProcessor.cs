@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -8,6 +9,8 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Business_Software_V2.Data;
 using IronOcr;
+using iTextSharp.text.pdf;
+using iTextSharp.text.pdf.parser;
 
 namespace Business_Software_V2
 {
@@ -26,6 +29,7 @@ namespace Business_Software_V2
     {
         public static ProcessedInvoice[] Process(string[] path)
         {
+            
             var Ocr = new IronOcr.AdvancedOcr()
             {
                 CleanBackgroundNoise = true,
@@ -45,22 +49,40 @@ namespace Business_Software_V2
             try
             {
                 List<Task<ProcessedInvoice>> tasks = new List<Task<ProcessedInvoice>>();
-                
+                Stopwatch stopwatch = Stopwatch.StartNew();
                 foreach(string p in path)
                 {
-                    tasks.Add(Task.Run(() => ProcessInvoice(Ocr, p)));
+                   
+                    tasks.Add(Task.Run(() => ProcessDocument(p, Ocr)));
                 }
 
                 Task.WaitAll(tasks.ToArray());
+                stopwatch.Stop();
+                Console.WriteLine(stopwatch.Elapsed.TotalSeconds);
                 return tasks.Select(a => a.Result).ToArray();
             }
             catch (Exception ex) { }
             return null;
         }
 
-        private static ProcessedInvoice ProcessInvoice(AdvancedOcr Ocr, string path)
+        private static ProcessedInvoice ProcessDocument(string path, AdvancedOcr ocr)
         {
-            var result = Ocr.Read(path);
+            string text = "";
+            if(System.IO.Path.GetExtension(path) == ".pdf")
+            {
+                PdfReader reader = new PdfReader(path);
+                text = PdfTextExtractor.GetTextFromPage(reader, 1);
+            }
+            else
+            {
+                text = ocr.Read(path).Text;
+            }
+
+            return ProcessInvoice(text, path);
+        }
+
+        private static ProcessedInvoice ProcessInvoice(string result, string path)
+        {
             Regex rx = new Regex(@"(\d{3}\s*\d{3}\s*\d{3}\s*\d{2})|(\d{2}\s *\d{3}\s *\d{3}\s*\d{3})", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
             Regex email = new Regex(@"[\w\d\-]*[@][\w\d\-]*(.com.au|.com)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
             Regex phone = new Regex(@"(?:\+?61|0)[2-478 ](?:[ -]?[0-9]){8}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -68,9 +90,9 @@ namespace Business_Software_V2
             
 
             
-            Match emailMatch = email.Match(result.Text);
-            MatchCollection abnMatch = rx.Matches(result.Text);
-            Match phoneMatch = phone.Match(result.Text);
+            Match emailMatch = email.Match(result);
+            MatchCollection abnMatch = rx.Matches(result);
+            Match phoneMatch = phone.Match(result);
 
             string abn = "";
             foreach (Match match in abnMatch)
@@ -94,9 +116,9 @@ namespace Business_Software_V2
                 gstRegistered = groups[1].Value.Replace("&nbsp;", " ");
             }
 
-            string potentialCompanyName = FindLargestText(result);
+            //string potentialCompanyName = FindLargestText(result);
 
-            ProcessedInvoice processedInvoice = new ProcessedInvoice() { ABN = abn, GstRegistered = gstRegistered, Email = emailMatch.Value, Phone = phoneMatch.Value, CompanyName = potentialCompanyName, FilePath = path  };
+            ProcessedInvoice processedInvoice = new ProcessedInvoice() { ABN = abn, GstRegistered = gstRegistered, Email = emailMatch.Value, Phone = phoneMatch.Value, FilePath = path  };
 
             return processedInvoice;
 

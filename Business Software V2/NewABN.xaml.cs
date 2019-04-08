@@ -29,6 +29,8 @@ namespace Business_Software_V2
         {
             var data = ((ABNData) DataContext);
             ABNHelper.SetupInfoFile(data);
+            ABNHelper.UpdatedBusinessCard();
+            this.Close();
         }
     }
     
