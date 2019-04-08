@@ -52,6 +52,7 @@ namespace Business_Software_V2.Data
 
         public static string GetCompanyName(string abn)
         {
+            //THIS ERRORS WHEN ADDING A NEW ABN
             string path = GetDirectory(abn) + "/company.info";
             string text = File.ReadAllText(path);
             var data = JsonConvert.DeserializeObject<ABNData>(text);

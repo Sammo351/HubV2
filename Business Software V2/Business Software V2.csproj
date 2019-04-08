@@ -81,6 +81,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="GenericFrameWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="InvoiceList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -103,6 +107,9 @@
     </Compile>
     <Compile Include="DataInvoice.cs" />
     <Compile Include="Data\ABNHelper.cs" />
+    <Compile Include="GenericFrameWindow.xaml.cs">
+      <DependentUpon>GenericFrameWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="InvoiceHelper.cs" />
     <Compile Include="InvoiceList.xaml.cs">
       <DependentUpon>InvoiceList.xaml</DependentUpon>

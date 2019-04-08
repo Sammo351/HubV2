@@ -27,15 +27,6 @@
             FontSize="10"
             FontStretch="Expanded"
             FontWeight="Bold" />
-        <Frame
-            x:Name="frame"
-            Grid.Row="1"
-            Grid.Column="0"
-            HorizontalContentAlignment="Stretch"
-            VerticalContentAlignment="Stretch"
-            Content="Frame"
-            Source="/Business Software V2;component/InvoiceList.xaml" />
-
 
     </Grid>
 </Window>
