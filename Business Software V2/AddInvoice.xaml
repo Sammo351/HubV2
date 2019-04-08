@@ -10,10 +10,10 @@
     Height="450"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    Background="#FFEAEAEA"
+    
     mc:Ignorable="d">
 
-    <Grid>
+    <Grid Margin="0,0,10,10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*" />
             <ColumnDefinition Width="*" />

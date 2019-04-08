@@ -27,6 +27,7 @@ namespace Business_Software_V2
         public AddInvoice()
         {
             InitializeComponent();
+            processingBar.Visibility = Visibility.Collapsed;
 
         }
 
@@ -67,7 +68,7 @@ namespace Business_Software_V2
                 });
 
 
-                Task.Run(() => { /* Threaded Code */ });
+          
 
 
             }
@@ -89,15 +90,15 @@ namespace Business_Software_V2
             }
 
             string path = ABNHelper.GetDirectory(inv.ABN);
-            string iPath = System.IO.Path.Combine(path, "Invoices"); 
+            string iPath = path + "\\Invoices\\"; 
+            
 
             ABNHelper.CreateDirectoryFromPath(iPath);
 
-            string tPath = System.IO.Path.Combine(iPath, DateTime.Now.ToShortTimeString() + ".pdf");
+            string tPath = iPath + System.IO.Path.GetFileName(inv.FilePath);
             
             File.Copy(inv.FilePath, tPath, false);
-            
-
+            InvoiceHelper.OnInvoiceAdded();
 
         }
 

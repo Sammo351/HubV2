@@ -10,7 +10,7 @@ namespace Business_Software_V2.Data
 {
     public static class ABNHelper
     {
-        static string defaultPath = @"D:\Desktop\Hub Test Folder";
+        public static string defaultPath = @"D:\Desktop\Hub Test Folder";
 
         public static bool DoesABNExist(string abn)
         {
@@ -19,7 +19,7 @@ namespace Business_Software_V2.Data
 
         public static string GetDirectory(string abn)
         {
-            return Path.GetFullPath(defaultPath + @"\" + abn);
+            return defaultPath + @"\" + abn;
         }
 
         public static void CreateDirectory(string abn)
@@ -48,6 +48,19 @@ namespace Business_Software_V2.Data
             writer.Write(x);
             writer.Flush();
             writer.Close();
+        }
+
+        public static string GetCompanyName(string abn)
+        {
+            string path = GetDirectory(abn) + "/company.info";
+            string text = File.ReadAllText(path);
+            var data = JsonConvert.DeserializeObject<ABNData>(text);
+            return data.CompanyName;
+        }
+
+        public static string[] GetAllABNs()
+        {
+            return Directory.GetDirectories(defaultPath);
         }
 
     }

@@ -14,6 +14,12 @@
             <RowDefinition Height="20" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <!--<ColumnDefinition Width="*"/>-->
+        </Grid.ColumnDefinitions>
+        
         <Rectangle Fill="AliceBlue" />
         <Label
             HorizontalAlignment="Center"
@@ -24,10 +30,12 @@
         <Frame
             x:Name="frame"
             Grid.Row="1"
+            Grid.Column="0"
             HorizontalContentAlignment="Stretch"
             VerticalContentAlignment="Stretch"
             Content="Frame"
-            Source="/Business Software V2;component/AddInvoice.xaml" />
+            Source="/Business Software V2;component/InvoiceList.xaml" />
+
 
     </Grid>
 </Window>
