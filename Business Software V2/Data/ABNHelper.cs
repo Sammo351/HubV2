@@ -12,7 +12,7 @@ namespace Business_Software_V2.Data
     {
         public static Action UpdatedBusinessCard;
 
-        public static string defaultPath = @"E:\Desktop\Hub Test Folder";
+        public static string defaultPath = @"D:\Desktop\Hub Test Folder";
 
         public static bool DoesABNExist(string abn)
         {

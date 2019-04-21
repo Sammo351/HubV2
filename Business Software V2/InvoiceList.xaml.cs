@@ -27,7 +27,7 @@ namespace Business_Software_V2
     {
         public InvoiceList()
         {
-            
+
             InitializeComponent();
             var stop = Stopwatch.StartNew();
             DataContext = this;
@@ -37,10 +37,30 @@ namespace Business_Software_V2
             ABNHelper.UpdatedBusinessCard += RepopulateInvoices;
 
             stop.Stop();
-            
+
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listBoxInvoice.ItemsSource);
-            view.Filter = SearchBarFilter;
+            view.Filter = ListFilter;
+            UniqueCompanies.Clear();
+            
+
+            foreach (DataInvoice invoice in Invoices)
+            {
+
+                if (!UniqueCompanies.Contains(invoice.CompanyName))
+                {
+                    UniqueCompanies.Add(invoice.CompanyName);
+                }
+
+            }
+
+            foreach (string c in UniqueCompanies)
+            {
+                CheckBox checkBox = new CheckBox() { Content = c };
+                FilterBox.Items.Add(checkBox);
+            }
         }
+
+        List<string> UniqueCompanies = new List<string>();
 
         private void RepopulateInvoices()
         {
@@ -53,7 +73,7 @@ namespace Business_Software_V2
         {
             foreach (DataInvoice inv in InvoiceHelper.GetAllInvoices())
                 Invoices.Add(inv);
-            
+
         }
 
         private void RefreshButton(object sender, RoutedEventArgs e)
@@ -61,12 +81,7 @@ namespace Business_Software_V2
             RepopulateInvoices();
         }
 
-        private void OnCompanyClicked(object sender, RoutedEventArgs e)
-        {
-            var d = (DataInvoice)((Button)sender).DataContext;
-            MessageBox.Show(d.ABN);
 
-        }
 
         GridViewColumnHeader _lastHeaderClicked = null;
         ListSortDirection _lastDirection = ListSortDirection.Ascending;
@@ -77,9 +92,9 @@ namespace Business_Software_V2
             GridViewColumnHeader column = (e.OriginalSource as GridViewColumnHeader);
             ListSortDirection direction = ListSortDirection.Ascending;
 
-            if(column != null)
+            if (column != null)
             {
-                if(column.Role != GridViewColumnHeaderRole.Padding)
+                if (column.Role != GridViewColumnHeaderRole.Padding)
                 {
                     if (column != _lastHeaderClicked)
                         direction = ListSortDirection.Ascending;
@@ -97,7 +112,7 @@ namespace Business_Software_V2
                 _lastHeaderClicked = column;
                 _lastDirection = direction;
             }
-            
+
         }
 
         private void Sort(string sortBy, ListSortDirection direction)
@@ -107,6 +122,11 @@ namespace Business_Software_V2
             SortDescription sd = new SortDescription(sortBy, direction);
             dataView.SortDescriptions.Add(sd);
             dataView.Refresh();
+        }
+
+        private bool ListFilter(object item)
+        {
+            return SearchBarFilter(item) && FilterBoxValidated(item);
         }
 
         private bool SearchBarFilter(object item)
@@ -119,9 +139,43 @@ namespace Business_Software_V2
                     || ((item as DataInvoice).DisplayName.IndexOf(Searchbar.Text, StringComparison.OrdinalIgnoreCase) >= 0);
         }
 
+        private bool FilterBoxValidated(object item)
+        {
+            var i = item as DataInvoice;
+            var checkboxes = FilterBox.Items.OfType<CheckBox>();
+
+            bool areAnyCheckboxesChecked = false;
+            foreach(CheckBox checkbox in checkboxes)
+            {
+                if (checkbox.IsChecked.Value)
+                    areAnyCheckboxesChecked = true;
+            }
+
+            if (!areAnyCheckboxesChecked)
+                return true;
+
+            if (checkboxes.Where(a=>a.IsChecked.Value == true).Select(a => a.Content).ToString() == i.CompanyName)
+                return true;
+
+            return false;
+        }
+
         private void Searchbar_TextChanged(object sender, TextChangedEventArgs e)
         {
             CollectionViewSource.GetDefaultView(listBoxInvoice.ItemsSource).Refresh();
+        }
+
+        private void OnFileClicked(object sender, MouseButtonEventArgs e)
+        {
+            var d = (DataInvoice)((Label)sender).DataContext;
+            Process.Start(d.FilePath);
+        }
+
+        private void OnCompanyClicked(object sender, RoutedEventArgs e)
+        {
+            var d = (DataInvoice)((Label)sender).DataContext;
+            MessageBox.Show(d.ABN);
+
         }
     }
 }
