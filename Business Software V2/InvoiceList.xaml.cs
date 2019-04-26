@@ -41,26 +41,32 @@ namespace Business_Software_V2
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listBoxInvoice.ItemsSource);
             view.Filter = ListFilter;
             UniqueCompanies.Clear();
-            
 
+            List<string> companyNames = new List<string>();
             foreach (DataInvoice invoice in Invoices)
             {
 
-                if (!UniqueCompanies.Contains(invoice.CompanyName))
+                if (!companyNames.Contains(invoice.CompanyName))
                 {
-                    UniqueCompanies.Add(invoice.CompanyName);
+                    companyNames.Add(invoice.CompanyName);
+                    UniqueCompanies.Add(invoice);
+
+                    CheckBox checkBox = new CheckBox() { DataContext = invoice, Content=invoice.CompanyName};
+                    checkBox.Checked += CheckBox_Checked;
+                    checkBox.Unchecked += CheckBox_Checked;
+                    FilterBox.Items.Add(checkBox);
+                    
                 }
 
             }
-
-            foreach (string c in UniqueCompanies)
-            {
-                CheckBox checkBox = new CheckBox() { Content = c };
-                FilterBox.Items.Add(checkBox);
-            }
         }
 
-        List<string> UniqueCompanies = new List<string>();
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            CollectionViewSource.GetDefaultView(listBoxInvoice.ItemsSource).Refresh();
+        }
+
+        List<DataInvoice> UniqueCompanies = new List<DataInvoice>();
 
         private void RepopulateInvoices()
         {
@@ -154,7 +160,7 @@ namespace Business_Software_V2
             if (!areAnyCheckboxesChecked)
                 return true;
 
-            if (checkboxes.Where(a=>a.IsChecked.Value == true).Select(a => a.Content).ToString() == i.CompanyName)
+            if ((checkboxes.Where(a=>a.IsChecked.Value == true).Where(a => ((DataInvoice)a.DataContext).CompanyName == i.CompanyName)).Count() > 0)
                 return true;
 
             return false;
@@ -176,6 +182,16 @@ namespace Business_Software_V2
             var d = (DataInvoice)((Label)sender).DataContext;
             MessageBox.Show(d.ABN);
 
+        }
+
+        private void ListboxChanged(object sender, SelectionChangedEventArgs e)
+        {
+            CollectionViewSource.GetDefaultView(listBoxInvoice.ItemsSource).Refresh();
+        }
+
+        private void ClearTextbox(object sender, RoutedEventArgs e)
+        {
+            Searchbar.Clear();
         }
     }
 }

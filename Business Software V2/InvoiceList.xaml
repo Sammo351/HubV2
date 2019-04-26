@@ -17,7 +17,8 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="50" />
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
 
 
@@ -28,10 +29,16 @@
         <Button
             Grid.Column="1"
             Margin="0,0,10,0"
+            Click="ClearTextbox"
+            Content="X"/>
+        
+        <Button
+            Grid.Column="2"
+            Margin="0,0,10,0"
             Click="RefreshButton"
             Content="Refresh" />
 
-        <Grid Grid.Row="1" Grid.ColumnSpan="2">
+        <Grid Grid.Row="1" Grid.ColumnSpan="3">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -135,7 +142,7 @@
             </ListView>
             <StackPanel Grid.Column="1" Margin="10" Background="LightSteelBlue">
                 <Label FontSize="15">Filter</Label>
-                <ListBox x:Name="FilterBox" MinHeight="100">
+                <ListBox x:Name="FilterBox" MinHeight="100" SelectionChanged="ListboxChanged">
                     
                 </ListBox>
             </StackPanel>
