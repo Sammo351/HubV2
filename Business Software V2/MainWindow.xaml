@@ -9,8 +9,25 @@
     Title="MainWindow"
     Width="800"
     Height="450"
-    SizeToContent="WidthAndHeight"
+    
     Visibility="Visible"
-    mc:Ignorable="d">
-    <Grid />
+    mc:Ignorable="d" WindowState="Maximized">
+    <Grid>
+
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="Invoices">
+                    <MenuItem Header="Scan" Click="Menu_Scan" />
+                    <MenuItem Header="List" Click="Menu_ListInvoices"/>
+                    <Separator />
+                    <MenuItem Header="_Exit" Click="Menu_Exit"/>
+                </MenuItem>
+            </Menu>
+            <TextBox AcceptsReturn="True" />
+
+            <Frame x:Name="mainFrame" DockPanel.Dock="Bottom"/>
+
+
+        </DockPanel>
+    </Grid>
 </Window>

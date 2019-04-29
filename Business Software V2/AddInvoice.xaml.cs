@@ -57,10 +57,10 @@ namespace Business_Software_V2
                         stopwatch.Stop();
                         foreach (ProcessedInvoice inv in results)
                         {
-                            textBlock.Text += $"{inv.ABN} : {inv.Email} | GST: {inv.GstRegistered} \n";
+                           // textBlock.Text += $"{inv.ABN} : {inv.Email} | GST: {inv.GstRegistered} \n";
                             TryABN(inv);
                         }
-                        textBlock.Text += "\n Time: " + stopwatch.Elapsed;
+                        //textBlock.Text += "\n Time: " + stopwatch.Elapsed;
                         processingBar.Visibility = Visibility.Visible;
                         processingBar.IsIndeterminate = false;
                         processingBar.Value = processingBar.Maximum;

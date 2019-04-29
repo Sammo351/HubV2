@@ -6,88 +6,51 @@
     xmlns:local="clr-namespace:Business_Software_V2"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="AddInvoice"
-    Width="880"
-    Height="450"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    d:DesignHeight="1080"
+    d:DesignWidth="330"
     
     mc:Ignorable="d">
 
-    <Grid Margin="0,0,10,10">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
+    <Grid Grid.Column="1" Width="330" Margin="10">
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="80" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="40"/>
+            <!-- Header -->
+            <RowDefinition Height="100"/>
+            <!-- Drop Invoices -->
+            <RowDefinition Height="50"/>
+            <!-- Progress Bar -->
+            <RowDefinition Height="30"/>
+            <!-- History Label -->
+            <RowDefinition Height="500"/>
+            <!-- History Box -->
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock
-            x:Name="title"
-            Margin="50,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Center"
-            FontSize="22"
-            Text="Process Invoices"
-            TextAlignment="Center" />
-        <Rectangle
-            Grid.Row="1"
-            Height="113"
-            Margin="10,0"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Center"
-            AllowDrop="True"
-            Drop="ItemsDropped"
-            Fill="AliceBlue" />
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20px">Add New Invoices</TextBlock>
+        <Rectangle Grid.Row="1" Fill="LightGray"/>
+        <TextBlock Grid.Row="1" FontSize="20px" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#B2000000">Drop Invoices Here</TextBlock>
 
-        <TextBlock
-            x:Name="label"
-            Grid.Row="1"
-            Width="332"
-            Height="36"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            IsHitTestVisible="False"
-            Text="Drop Invoices Here"
-            TextAlignment="Center" />
+        <ProgressBar x:Name="processingBar" Grid.Row="2" Margin="0 10" Height="30" VerticalAlignment="Top"></ProgressBar>
+        <Label Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15px">History</Label>
+        <ListView Grid.Row="4" Margin="10">
+            <ListViewItem>
+                <StackPanel Height="30px"   >
+                    <TextBlock FontWeight="Bold" FontSize="12px" Text="PDF.pdf"></TextBlock>
+                    <TextBlock FontSize="10px" Text="23/04/1995"></TextBlock>
+                </StackPanel>
+            </ListViewItem>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Height="30px">
+                        <TextBlock FontWeight="Bold" FontSize="12px" Text="{Binding FileName, FallbackValue='PDF.pdf'}"></TextBlock>
+                        <TextBlock FontSize="10px" Text="{Binding Date, FallbackValue='23/04/1995'}"></TextBlock>
+                    </StackPanel>
 
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
 
-
-        <ProgressBar
-            x:Name="processingBar"
-            Grid.Row="2"
-            Height="26"
-            Margin="10"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Top"
-            IsIndeterminate="True"
-            Visibility="Visible" />
-        <Label
-            x:Name="label1"
-            Grid.Column="1"
-            Width="223"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Center"
-            Content="Output" />
-
-
-
-
-        <TextBlock
-            x:Name="textBlock"
-            Grid.Row="1"
-            Grid.RowSpan="2"
-            Grid.Column="1"
-            Width="223"
-            Height="329"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Background="#FFCFCFCF"
-            Text=""
-            TextWrapping="Wrap" />
 
 
     </Grid>

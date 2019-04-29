@@ -108,6 +108,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DataCompany.cs" />
     <Compile Include="DataInvoice.cs" />
     <Compile Include="Data\ABNHelper.cs" />
     <Compile Include="GenericFrameWindow.xaml.cs">

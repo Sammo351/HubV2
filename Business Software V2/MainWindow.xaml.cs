@@ -23,15 +23,30 @@ namespace Business_Software_V2
         public MainWindow()
         {
             InitializeComponent();
-            GenericFrameWindow genericFrame = new GenericFrameWindow();
-            genericFrame.frame.Source = new Uri(@"/Business Software V2;component/AddInvoice.xaml", UriKind.Relative);
-            genericFrame.Show();
+            mainFrame.Navigate(new Uri(@"/Business Software V2;component/InvoiceList.xaml", UriKind.Relative));
+            //GenericFrameWindow genericFrame = new GenericFrameWindow();
+            //genericFrame.frame.Source = new Uri(@"/Business Software V2;component/AddInvoice.xaml", UriKind.Relative);
+            //genericFrame.Show();
 
-            GenericFrameWindow genericFrame2 = new GenericFrameWindow();
-            genericFrame2.frame.Source = new Uri(@"/Business Software V2;component/InvoiceList.xaml", UriKind.Relative);
-            genericFrame2.Show();
+            //GenericFrameWindow genericFrame2 = new GenericFrameWindow();
+            //genericFrame2.frame.Source = new Uri(@"/Business Software V2;component/InvoiceList.xaml", UriKind.Relative);
+            //genericFrame2.Show();
         }
 
 
+        private void Menu_Scan(object sender, RoutedEventArgs e)
+        {
+            mainFrame.Navigate(new Uri(@"/Business Software V2;component/AddInvoice.xaml", UriKind.Relative));
+        }
+
+        private void Menu_ListInvoices(object sender, RoutedEventArgs e)
+        {
+            mainFrame.Navigate(new Uri(@"/Business Software V2;component/InvoiceList.xaml", UriKind.Relative));
+        }
+
+        private void Menu_Exit(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
     }
 }

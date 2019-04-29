@@ -46,6 +46,8 @@ namespace Business_Software_V2.Data
 
             string path = GetDirectory(data.ABN);
             string x = JsonConvert.SerializeObject(data);
+            DataCompany dataCompany = new DataCompany();
+            
             StreamWriter writer = File.CreateText(path + "/company.info");
             writer.Write(x);
             writer.Flush();
