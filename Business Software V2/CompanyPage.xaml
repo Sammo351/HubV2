@@ -1,0 +1,106 @@
+﻿<Window x:Class="Business_Software_V2.CompanyPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Business_Software_V2"
+      mc:Ignorable="d" 
+      Width="1920"
+        Height="1080"
+        WindowState="Maximized"
+      Title="CompanyPage">
+
+    <Window.Resources>
+        <Style x:Key="Header" TargetType="{x:Type Label}">
+            <Setter Property="FontSize" Value="12pt" />
+            <Setter Property="Padding" Value="0 3"/>
+        </Style>
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="FontSize" Value="13pt"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Margin="10">
+
+            <TextBlock Text="Editing!" x:Name="EditingLabel" FontSize="20" Background="Red" HorizontalAlignment="Stretch" TextAlignment="Center" Foreground="White" Margin="0 0 0 10"/>
+            <Button HorizontalAlignment="Right" FontSize="10pt" BorderBrush="Transparent" Click="EditButton_Click">Edit</Button>
+            <Label Style="{StaticResource Header}">Company Name:</Label>
+            <TextBox x:Name="TextboxCompanyName" IsReadOnly="{Binding ReadOnly,RelativeSource={RelativeSource Mode=FindAncestor,
+                                                         AncestorType=Window}}" Text="{Binding CompanyName,  FallbackValue='Name not found'}"/>
+            <Label Style="{StaticResource Header}">Office Number:</Label>
+            <TextBox x:Name="TextboxOfficeNumber" IsReadOnly="{Binding ReadOnly,RelativeSource={RelativeSource Mode=FindAncestor,
+                                                         AncestorType=Window}}" Text="{Binding OfficeNumber,  FallbackValue='N/A'}"/>
+            <Label Style="{StaticResource Header}">ABN:</Label>
+            <TextBox x:Name="TextboxABN" IsReadOnly="{Binding ReadOnly,RelativeSource={RelativeSource Mode=FindAncestor,
+                                                         AncestorType=Window}}" Text="{Binding ABN, FallbackValue='N/A'}"/>
+        </StackPanel>
+
+        <Grid Grid.Column="1" Width="500" HorizontalAlignment="Left">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+
+            <ListView ItemsSource="{Binding Contacts}" Grid.Column="1" HorizontalContentAlignment="Stretch" HorizontalAlignment="Left">
+
+                <!--<ListView.Items>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock  FontSize="20" TextAlignment="Center" Grid.Column="0" Text="{Binding Name, FallbackValue='John Smith'}"/>
+                    <TextBlock  FontSize="20" TextAlignment="Center" Grid.Column="1" Text="{Binding Phone, FallbackValue='040404040'}"/>
+                    <TextBlock  FontSize="20" TextAlignment="Center" Grid.Column="2" Text="{Binding Email, FallbackValue='John@smith.com'}"/>
+                </Grid>
+            </ListView.Items>-->
+
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="{Binding Name, FallbackValue='John Smith'}"/>
+                            <TextBlock Grid.Column="1" Text="{Binding Phone, FallbackValue='040404040'}"/>
+                            <TextBlock Grid.Column="2" Text="{Binding Email, FallbackValue='John@smith.com'}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+
+            </ListView>
+
+            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                <TextBox Width="120"></TextBox>
+                <TextBox Width="120"></TextBox>
+                <TextBox Width="120"></TextBox>
+                <Button>Add New Contact</Button>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <TextBlock Width="120" TextAlignment="Center">Name</TextBlock>
+                <TextBlock Width="120" TextAlignment="Center">Email</TextBlock>
+                <TextBlock Width="120" TextAlignment="Center">Phone</TextBlock>
+            </StackPanel>
+
+        </Grid>
+
+    </Grid>
+</Window>
+
+    
+    

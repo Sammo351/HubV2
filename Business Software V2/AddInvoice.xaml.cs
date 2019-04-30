@@ -11,11 +11,15 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DataFormats = System.Windows.DataFormats;
+using DragEventArgs = System.Windows.DragEventArgs;
+using MessageBox = System.Windows.MessageBox;
 
 namespace Business_Software_V2
 {
@@ -41,37 +45,42 @@ namespace Business_Software_V2
 
                 // Assuming you have one file that you care about, pass it off to whatever
                 // handling code you have defined.
-
-                //textBlock.Text = results[0].Email;
-                ProcessedInvoice[] results = null;
-                Stopwatch stopwatch = Stopwatch.StartNew();
-                stopwatch.Start();
-                processingBar.IsIndeterminate = true;
-                processingBar.Visibility = Visibility.Visible;
-
-                var t = Task.Run(() =>
-                {
-                    results = InvoiceProcessor.Process(files);
-                    this.Dispatcher.Invoke(() =>
-                    {
-                        stopwatch.Stop();
-                        foreach (ProcessedInvoice inv in results)
-                        {
-                           // textBlock.Text += $"{inv.ABN} : {inv.Email} | GST: {inv.GstRegistered} \n";
-                            TryABN(inv);
-                        }
-                        //textBlock.Text += "\n Time: " + stopwatch.Elapsed;
-                        processingBar.Visibility = Visibility.Visible;
-                        processingBar.IsIndeterminate = false;
-                        processingBar.Value = processingBar.Maximum;
-                    });
-                });
+                ProcessInvoices(files);
+               
 
 
           
 
 
             }
+        }
+
+        void ProcessInvoices(string[] files)
+        {
+            //textBlock.Text = results[0].Email;
+            ProcessedInvoice[] results = null;
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            stopwatch.Start();
+            processingBar.IsIndeterminate = true;
+            processingBar.Visibility = Visibility.Visible;
+
+            var t = Task.Run(() =>
+            {
+                results = InvoiceProcessor.Process(files);
+                this.Dispatcher.Invoke(() =>
+                {
+                    stopwatch.Stop();
+                    foreach (ProcessedInvoice inv in results)
+                    {
+                        // textBlock.Text += $"{inv.ABN} : {inv.Email} | GST: {inv.GstRegistered} \n";
+                        TryABN(inv);
+                    }
+                    //textBlock.Text += "\n Time: " + stopwatch.Elapsed;
+                    processingBar.Visibility = Visibility.Visible;
+                    processingBar.IsIndeterminate = false;
+                    processingBar.Value = processingBar.Maximum;
+                });
+            });
         }
 
         void TryABN(ProcessedInvoice inv)
@@ -90,18 +99,33 @@ namespace Business_Software_V2
             }
 
             string path = ABNHelper.GetDirectory(inv.ABN);
-            string iPath = path + "\\Invoices\\"; 
+            string iPath = path + @"\Invoices\"; 
             
 
             ABNHelper.CreateDirectoryFromPath(iPath);
 
             string tPath = iPath + System.IO.Path.GetFileName(inv.FilePath);
             
-            File.Copy(inv.FilePath, tPath, false);
+            if(!File.Exists(tPath))
+                File.Copy(inv.FilePath, tPath, false);
+
             InvoiceHelper.OnInvoiceAdded();
 
         }
 
+        private void UploadInvoicesButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Multiselect = true
+            };
 
+            var response = openFileDialog.ShowDialog();
+            if(response == DialogResult.OK)
+            {
+                string[] files = openFileDialog.FileNames;
+                ProcessInvoices(files);
+            }
+        }
     }
 }

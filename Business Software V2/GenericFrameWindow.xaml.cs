@@ -23,5 +23,6 @@ namespace Business_Software_V2
         {
             InitializeComponent();
         }
+        
     }
 }

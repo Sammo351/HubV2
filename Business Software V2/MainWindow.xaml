@@ -23,8 +23,6 @@
                     <MenuItem Header="_Exit" Click="Menu_Exit"/>
                 </MenuItem>
             </Menu>
-            <TextBox AcceptsReturn="True" />
-
             <Frame x:Name="mainFrame" DockPanel.Dock="Bottom"/>
 
 

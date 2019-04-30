@@ -40,25 +40,7 @@ namespace Business_Software_V2
 
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listBoxInvoice.ItemsSource);
             view.Filter = ListFilter;
-            UniqueCompanies.Clear();
-
-            List<string> companyNames = new List<string>();
-            foreach (DataInvoice invoice in Invoices)
-            {
-
-                if (!companyNames.Contains(invoice.CompanyName))
-                {
-                    companyNames.Add(invoice.CompanyName);
-                    UniqueCompanies.Add(invoice);
-
-                    CheckBox checkBox = new CheckBox() { DataContext = invoice, Content=invoice.CompanyName};
-                    checkBox.Checked += CheckBox_Checked;
-                    checkBox.Unchecked += CheckBox_Checked;
-                    FilterBox.Items.Add(checkBox);
-                    
-                }
-
-            }
+            
         }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
@@ -79,6 +61,26 @@ namespace Business_Software_V2
         {
             foreach (DataInvoice inv in InvoiceHelper.GetAllInvoices())
                 Invoices.Add(inv);
+
+            UniqueCompanies.Clear();
+            FilterBox.Items.Clear();
+            List<string> companyNames = new List<string>();
+            foreach (DataInvoice invoice in Invoices)
+            {
+                
+                if (!companyNames.Contains(invoice.CompanyName))
+                {
+                    companyNames.Add(invoice.CompanyName);
+                    UniqueCompanies.Add(invoice);
+
+                    CheckBox checkBox = new CheckBox() { DataContext = invoice, Content = invoice.CompanyName };
+                    checkBox.Checked += CheckBox_Checked;
+                    checkBox.Unchecked += CheckBox_Checked;
+                    FilterBox.Items.Add(checkBox);
+
+                }
+
+            }
 
         }
 
@@ -151,7 +153,7 @@ namespace Business_Software_V2
             var checkboxes = FilterBox.Items.OfType<CheckBox>();
 
             bool areAnyCheckboxesChecked = false;
-            foreach(CheckBox checkbox in checkboxes)
+            foreach (CheckBox checkbox in checkboxes)
             {
                 if (checkbox.IsChecked.Value)
                     areAnyCheckboxesChecked = true;
@@ -160,7 +162,7 @@ namespace Business_Software_V2
             if (!areAnyCheckboxesChecked)
                 return true;
 
-            if ((checkboxes.Where(a=>a.IsChecked.Value == true).Where(a => ((DataInvoice)a.DataContext).CompanyName == i.CompanyName)).Count() > 0)
+            if ((checkboxes.Where(a => a.IsChecked.Value == true).Where(a => ((DataInvoice)a.DataContext).CompanyName == i.CompanyName)).Count() > 0)
                 return true;
 
             return false;
@@ -180,8 +182,10 @@ namespace Business_Software_V2
         private void OnCompanyClicked(object sender, RoutedEventArgs e)
         {
             var d = (DataInvoice)((Label)sender).DataContext;
-            MessageBox.Show(d.ABN);
-
+            CompanyPage window = new CompanyPage();
+            window.DataContext = CompanyHelper.GetCompany(d.ABN);
+            window.Show();
+            window.Activate();
         }
 
         private void ListboxChanged(object sender, SelectionChangedEventArgs e)
@@ -193,5 +197,25 @@ namespace Business_Software_V2
         {
             Searchbar.Clear();
         }
+
+        private void RemoveInvoiceContextMenu_OnClick(object sender, RoutedEventArgs e)
+        {
+            var ds = listBoxInvoice.SelectedItems;
+            if (ds == null)
+                return;
+
+            string message = ds.Count == 1 ? "Are you sure you wish to delete this item?" : $"Are you sure you wish to delete {ds.Count} items?";
+            var response = MessageBox.Show(message, "Are you sure?", MessageBoxButton.YesNo);
+            if (response == MessageBoxResult.Yes)
+            {
+                foreach (DataInvoice inv in ds)
+                    File.Delete(inv.FilePath);
+
+                RepopulateInvoices();
+
+
+            }
+        }
+
     }
 }

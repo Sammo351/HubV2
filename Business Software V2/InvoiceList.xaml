@@ -15,12 +15,13 @@
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="330"/>
         </Grid.ColumnDefinitions>
-        
+
         <!-- List -->
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="30" />
-                <RowDefinition Height="*" />
+                <RowDefinition Height="327*" />
+                <RowDefinition Height="23*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -45,7 +46,7 @@
             Click="RefreshButton"
             Content="Refresh" />
 
-            <Grid Grid.Row="1" Grid.ColumnSpan="3" Height="auto" MinHeight="500">
+            <Grid Grid.Row="1" Grid.ColumnSpan="3" Height="auto" MinHeight="500" Grid.RowSpan="2">
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -58,8 +59,19 @@
             HorizontalContentAlignment="Stretch"
             ItemsSource="{Binding Invoices}">
 
+                    <ListView.ContextMenu>
+                        <ContextMenu Name="contextInvoiceList" StaysOpen="true" Background="WhiteSmoke">
+                            <ContextMenu.BitmapEffect>
+                                <BitmapEffectGroup/>
+                            </ContextMenu.BitmapEffect>
+
+                            <MenuItem Header="Remove" Name="RemoveInvoiceContextMenu" Click="RemoveInvoiceContextMenu_OnClick"/>
+                        </ContextMenu>
+                    </ListView.ContextMenu>
+
                     <ListView.View>
-                        <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="Invoice Info">
+
+                        <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="Invoice Info" >
 
                             <GridViewColumn Width="200">
 
@@ -154,7 +166,7 @@
                     </ListBox>
                 </StackPanel>
             </Grid>
-            
+
         </Grid>
         <Frame Grid.Column="2" Source="/Business Software V2;component/AddInvoice.xaml"/>
     </Grid>

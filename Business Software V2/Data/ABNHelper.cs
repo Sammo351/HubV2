@@ -47,9 +47,12 @@ namespace Business_Software_V2.Data
             string path = GetDirectory(data.ABN);
             string x = JsonConvert.SerializeObject(data);
             DataCompany dataCompany = new DataCompany();
+            dataCompany.ABN = data.ABN;
+            dataCompany.CompanyName = data.CompanyName;
+            dataCompany.OfficeNumber = data.Phone;
             
-            StreamWriter writer = File.CreateText(path + "/company.info");
-            writer.Write(x);
+            StreamWriter writer = File.CreateText(path + "/CompanyInfo.info");
+            writer.Write(JsonConvert.SerializeObject(dataCompany));
             writer.Flush();
             writer.Close();
         }
@@ -57,11 +60,11 @@ namespace Business_Software_V2.Data
         public static string GetCompanyName(string abn)
         {
             //THIS ERRORS WHEN ADDING A NEW ABN
-            string path = GetDirectory(abn) + "/company.info";
+            string path = GetDirectory(abn) + "/CompanyInfo.info";
             if (File.Exists(path))
             {
                 string text = File.ReadAllText(path);
-                var data = JsonConvert.DeserializeObject<ABNData>(text);
+                var data = JsonConvert.DeserializeObject<DataCompany>(text);
                 return data.CompanyName;
             }
             else
