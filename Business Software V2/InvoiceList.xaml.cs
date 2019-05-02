@@ -184,8 +184,9 @@ namespace Business_Software_V2
             var d = (DataInvoice)((Label)sender).DataContext;
             CompanyPage window = new CompanyPage();
             window.DataContext = CompanyHelper.GetCompany(d.ABN);
+            window.Owner = Application.Current.MainWindow;
             window.Show();
-            window.Activate();
+            
         }
 
         private void ListboxChanged(object sender, SelectionChangedEventArgs e)

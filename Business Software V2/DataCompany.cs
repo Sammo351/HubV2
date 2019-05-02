@@ -56,10 +56,10 @@ namespace Business_Software_V2
             }
         }
 
-        ObservableCollection<DataContact> _contacts;
+        ObservableCollection<DataContact> _contacts = new ObservableCollection<DataContact>();
         public ObservableCollection<DataContact> Contacts
         {
-            get { return _contacts; }
+            get { if (_contacts == null) _contacts = new ObservableCollection<DataContact>(); return _contacts; }
             set
             {
                 if (_contacts != value)
@@ -83,27 +83,32 @@ namespace Business_Software_V2
     [System.Serializable]
     public class DataContact : INotifyPropertyChanged
     {
-        private string Name;
+        private string _name;
 
-        public string _name
+        public DataContact(string name, string email, string phone)
         {
-            get { return Name; }
-            set { Name = value; OnPropertyChanged("Name"); }
+            this.Name = name; this.Email = email; this.PhoneNumber = phone;
         }
 
-        private string PhoneNumber;
-
-        public string _phoneNumber
+        public string Name
         {
-            get { return PhoneNumber; }
-            set { PhoneNumber = value; OnPropertyChanged("PhoneNumber"); }
+            get { return _name; }
+            set { _name = value; OnPropertyChanged("Name"); }
         }
 
-        private string Email;
+        private string _phoneNumber;
 
-        public string _email
+        public string PhoneNumber
         {
-            get { return Email; }
+            get { return _phoneNumber; }
+            set { _phoneNumber = value; OnPropertyChanged("PhoneNumber"); }
+        }
+
+        private string _email;
+
+        public string Email
+        {
+            get { return _email; }
             set { _email = value; OnPropertyChanged("Email"); }
         }
 
