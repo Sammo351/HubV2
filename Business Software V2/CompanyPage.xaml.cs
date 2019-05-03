@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace Business_Software_V2
 {
@@ -16,11 +20,35 @@ namespace Business_Software_V2
             get { return _readOnly; }
         }
 
+        ObservableCollection<DataInvoice> CompanyInvoices = new ObservableCollection<DataInvoice>();
+
         public CompanyPage()
         {
             InitializeComponent();
             EditingLabel.Visibility = Visibility.Collapsed;
+            Loaded += CompanyPage_Loaded;
+          
         }
+
+        private void CompanyPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            PopulateInvoices();
+        }
+
+        void PopulateInvoices()
+        {
+            CompanyInvoices = new ObservableCollection<DataInvoice>();
+            foreach (DataInvoice inv in InvoiceHelper.GetAllInvoices())
+            {
+                if (inv.CompanyName == ((DataCompany)DataContext).CompanyName)
+                    CompanyInvoices.Add(inv);
+            }
+            ListViewInvoices.ItemsSource = CompanyInvoices;
+
+            CollectionViewSource.GetDefaultView(ListViewInvoices.ItemsSource).Refresh();
+        }
+
+        
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
@@ -60,6 +88,75 @@ namespace Business_Software_V2
         private void SaveAllButton_Click(object sender, RoutedEventArgs e)
         {
             CompanyHelper.SaveChanges((DataCompany)DataContext);
+        }
+
+        private void RemoveContactButton_Click(object sender, RoutedEventArgs e)
+        {
+            var ds = ListviewContacts.SelectedItems;
+            if (ds == null)
+                return;
+
+            string message = ds.Count == 1 ? "Are you sure you wish to delete this item?" : $"Are you sure you wish to delete {ds.Count} items?";
+            var response = MessageBox.Show(message, "Are you sure?", MessageBoxButton.YesNo);
+            if (response == MessageBoxResult.Yes)
+            {
+                DataCompany company = ((DataCompany)DataContext);
+                company.Contacts.Remove((DataContact)ListviewContacts.SelectedItem);
+
+            }
+        }
+
+        private void RemoveInvoiceContextMenu_OnClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OnFileClicked(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            var d = (DataInvoice)((Label)sender).DataContext;
+            Process.Start(d.FilePath);
+        }
+
+
+        GridViewColumnHeader _lastHeaderClicked = null;
+        ListSortDirection _lastDirection = ListSortDirection.Ascending;
+
+
+        private void ColumnHeader_Click(object sender, RoutedEventArgs e)
+        {
+            GridViewColumnHeader column = (e.OriginalSource as GridViewColumnHeader);
+            ListSortDirection direction = ListSortDirection.Ascending;
+
+            if (column != null)
+            {
+                if (column.Role != GridViewColumnHeaderRole.Padding)
+                {
+                    if (column != _lastHeaderClicked)
+                        direction = ListSortDirection.Ascending;
+                    else
+                    {
+                        if (_lastDirection == ListSortDirection.Ascending)
+                            direction = ListSortDirection.Descending;
+                        else
+                            direction = ListSortDirection.Ascending;
+                    }
+                }
+
+                string header = column.Tag.ToString();
+                Sort(header, direction);
+                _lastHeaderClicked = column;
+                _lastDirection = direction;
+            }
+
+        }
+
+        private void Sort(string sortBy, ListSortDirection direction)
+        {
+            ICollectionView dataView = CollectionViewSource.GetDefaultView(ListViewInvoices.ItemsSource);
+            dataView.SortDescriptions.Clear();
+            SortDescription sd = new SortDescription(sortBy, direction);
+            dataView.SortDescriptions.Add(sd);
+            dataView.Refresh();
         }
     }
 }

@@ -23,7 +23,6 @@ namespace Business_Software_V2
         public MainWindow()
         {
             InitializeComponent();
-            mainFrame.Navigate(new Uri(@"/Business Software V2;component/InvoiceList.xaml", UriKind.Relative));
             //GenericFrameWindow genericFrame = new GenericFrameWindow();
             //genericFrame.frame.Source = new Uri(@"/Business Software V2;component/AddInvoice.xaml", UriKind.Relative);
             //genericFrame.Show();
@@ -34,15 +33,6 @@ namespace Business_Software_V2
         }
 
 
-        private void Menu_Scan(object sender, RoutedEventArgs e)
-        {
-            mainFrame.Navigate(new Uri(@"/Business Software V2;component/AddInvoice.xaml", UriKind.Relative));
-        }
-
-        private void Menu_ListInvoices(object sender, RoutedEventArgs e)
-        {
-            mainFrame.Navigate(new Uri(@"/Business Software V2;component/InvoiceList.xaml", UriKind.Relative));
-        }
 
         private void Menu_Exit(object sender, RoutedEventArgs e)
         {

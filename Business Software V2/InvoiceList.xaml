@@ -26,14 +26,14 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="70"/>
-                <ColumnDefinition Width="auto" />
+                <ColumnDefinition x:Name="colAdd" Width="auto" />
             </Grid.ColumnDefinitions>
 
 
             <TextBox
             Name="Searchbar"
             Margin="10,0"
-            TextChanged="Searchbar_TextChanged" />
+            TextChanged="Searchbar_TextChanged"  PreviewKeyDown="Searchbar_Keydown" TabIndex="0" />
             <Button
             Grid.Column="1"
             Margin="0,0,10,0"
@@ -168,6 +168,7 @@
             </Grid>
 
         </Grid>
-        <Frame Grid.Column="2" Source="/Business Software V2;component/AddInvoice.xaml"/>
+            <Frame HorizontalAlignment="Right"  x:Name="addInvoiceFrame" Grid.Column="2" Source="/Business Software V2;component/AddInvoice.xaml"/>
+        
     </Grid>
 </Page>

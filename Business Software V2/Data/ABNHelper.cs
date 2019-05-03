@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using Newtonsoft.Json;
+using System.Text.RegularExpressions;
 
 namespace Business_Software_V2.Data
 {
@@ -14,18 +15,32 @@ namespace Business_Software_V2.Data
 
         public static string defaultPath = @"D:\Desktop\Hub Test Folder";
 
+        static string FormatABN(string abn)
+        {
+            abn = abn.Replace(" ", "");
+            abn = string.Format("{0:## ### ### ###}", Convert.ToUInt64(abn));
+            return abn;
+        }
+
+
         public static bool DoesABNExist(string abn)
         {
+            abn = FormatABN(abn);
             return Directory.Exists(defaultPath + @"\" + abn);
         }
 
         public static string GetDirectory(string abn)
         {
+            abn = abn.Split('\\').Last();
+            abn = FormatABN(abn);
             return defaultPath + @"\" + abn;
         }
 
         public static void CreateDirectory(string abn)
         {
+            abn = FormatABN(abn);
+            Console.WriteLine(abn);
+
             if (!Directory.Exists(defaultPath))
                 Directory.CreateDirectory(defaultPath);
 
@@ -33,6 +48,7 @@ namespace Business_Software_V2.Data
                 Directory.CreateDirectory(defaultPath + "\\" + abn);
         }
 
+        
         public static void CreateDirectoryFromPath(string path)
         {
             if (!Directory.Exists(path))
@@ -60,6 +76,7 @@ namespace Business_Software_V2.Data
         public static string GetCompanyName(string abn)
         {
             //THIS ERRORS WHEN ADDING A NEW ABN
+            abn = FormatABN(abn);
             string path = GetDirectory(abn) + "/CompanyInfo.info";
             if (File.Exists(path))
             {

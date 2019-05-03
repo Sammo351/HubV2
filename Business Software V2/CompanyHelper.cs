@@ -29,6 +29,18 @@ namespace Business_Software_V2
             return null;
         }
 
+        internal static DataCompany[] GetAllCompanies()
+        {
+            DataCompany[] companies = new DataCompany[ABNHelper.GetAllABNs().Length];
+
+            string[] abns = ABNHelper.GetAllABNs();
+            for (int i = 0; i < abns.Length; i++)
+            {
+                companies[i] = GetCompany(abns[i]);
+            }
+            return companies;
+        }
+
         internal static void SaveChanges(DataCompany dataCompany)
         {
             string dir = ABNHelper.GetDirectory(dataCompany.ABN);

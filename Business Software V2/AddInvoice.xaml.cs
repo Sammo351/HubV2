@@ -32,24 +32,33 @@ namespace Business_Software_V2
         {
             InitializeComponent();
             processingBar.Visibility = Visibility.Collapsed;
+            PreviewKeyDown += AddInvoice_PreviewKeyDown;
+        }
 
+        private void AddInvoice_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.F6)
+            {
+                MessageBox.Show("Horay!");
+                UploadInvoicesButton_Click(null, e);
+            }
         }
 
         private void ItemsDropped(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                
+
                 // Note that you can have more than one file.
                 string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
 
                 // Assuming you have one file that you care about, pass it off to whatever
                 // handling code you have defined.
                 ProcessInvoices(files);
-               
 
 
-          
+
+
 
 
             }
@@ -85,6 +94,15 @@ namespace Business_Software_V2
 
         void TryABN(ProcessedInvoice inv)
         {
+            if (String.IsNullOrEmpty(inv.ABN))
+            {
+                PromptTextDialog promptTextDialog = new PromptTextDialog();
+                promptTextDialog.SetCaption("Can't find ABN, please specify $$");
+                promptTextDialog.ShowDialog();
+                inv.ABN = promptTextDialog.Text;
+            }
+
+
             if (!ABNHelper.DoesABNExist(inv.ABN))
             {
                 string text = $"ABN Not found: {inv.ABN}, would you like to create a new folder for {inv.ABN}?";
@@ -93,27 +111,27 @@ namespace Business_Software_V2
                 if (response == MessageBoxResult.Yes)
                 {
                     NewABN newABN = new NewABN();
-                    newABN.DataContext = new ABNData() { ABN = inv.ABN, Email=inv.Email, Phone=inv.Phone, CompanyName=inv.CompanyName };
+                    newABN.DataContext = new ABNData() { ABN = inv.ABN, Email = inv.Email, Phone = inv.Phone, CompanyName = inv.CompanyName };
                     newABN.Show();
                 }
             }
 
             string path = ABNHelper.GetDirectory(inv.ABN);
-            string iPath = path + @"\Invoices\"; 
-            
+            string iPath = path + @"\Invoices\";
+
 
             ABNHelper.CreateDirectoryFromPath(iPath);
 
             string tPath = iPath + System.IO.Path.GetFileName(inv.FilePath);
-            
-            if(!File.Exists(tPath))
+
+            if (!File.Exists(tPath))
                 File.Copy(inv.FilePath, tPath, false);
 
             InvoiceHelper.OnInvoiceAdded();
 
         }
 
-        private void UploadInvoicesButton_Click(object sender, RoutedEventArgs e)
+        public void UploadInvoicesButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
@@ -121,7 +139,7 @@ namespace Business_Software_V2
             };
 
             var response = openFileDialog.ShowDialog();
-            if(response == DialogResult.OK)
+            if (response == DialogResult.OK)
             {
                 string[] files = openFileDialog.FileNames;
                 ProcessInvoices(files);

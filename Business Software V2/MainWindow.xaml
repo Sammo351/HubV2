@@ -15,16 +15,40 @@
     <Grid>
 
         <DockPanel>
-            <Menu DockPanel.Dock="Top">
-                <MenuItem Header="Invoices">
-                    <MenuItem Header="Scan" Click="Menu_Scan" />
-                    <MenuItem Header="List" Click="Menu_ListInvoices"/>
-                    <Separator />
-                    <MenuItem Header="_Exit" Click="Menu_Exit"/>
-                </MenuItem>
-            </Menu>
-            <Frame x:Name="mainFrame" DockPanel.Dock="Bottom"/>
-
+            <TabControl DockPanel.Dock="Top" Margin="10" BorderBrush="Gainsboro">
+                    <TabControl.Resources>
+                        <Style TargetType="TabItem">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="TabItem">
+                                        <Border Name="Border" BorderThickness="1,1,1,0" BorderBrush="Gainsboro" CornerRadius="4,4,0,0" Margin="2,0">
+                                            <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="10,2"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter TargetName="Border" Property="Background" Value="LightSkyBlue" />
+                                            </Trigger>
+                                            <Trigger Property="IsSelected" Value="False">
+                                                <Setter TargetName="Border" Property="Background" Value="GhostWhite" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </TabControl.Resources>
+                    <TabItem Header="Invoices">
+                        <Frame Source="/Business Software V2;component/InvoiceList.xaml"/>
+                </TabItem>
+                <TabItem Header="Companies">
+                    <Frame Source="/Business Software V2;component/CompanyList.xaml"/>
+                </TabItem>
+                <TabItem Header="Coming Soon!" />
+            </TabControl>
 
         </DockPanel>
     </Grid>

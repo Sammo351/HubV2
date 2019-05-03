@@ -10,10 +10,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -35,12 +37,18 @@ namespace Business_Software_V2
             listBoxInvoice.ItemsSource = Invoices;
             InvoiceHelper.OnInvoiceAdded += RepopulateInvoices;
             ABNHelper.UpdatedBusinessCard += RepopulateInvoices;
-
+            Loaded += InvoiceList_Loaded;
             stop.Stop();
-
+            
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listBoxInvoice.ItemsSource);
             view.Filter = ListFilter;
             
+        }
+
+       
+        private void InvoiceList_Loaded(object sender, RoutedEventArgs e)
+        {
+            Searchbar.Focus();
         }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
@@ -144,7 +152,9 @@ namespace Business_Software_V2
             else
                 return ((item as DataInvoice).CompanyName.IndexOf(Searchbar.Text, StringComparison.OrdinalIgnoreCase) >= 0)
                     || ((item as DataInvoice).ABN.IndexOf(Searchbar.Text, StringComparison.OrdinalIgnoreCase) >= 0)
-                    || ((item as DataInvoice).DisplayName.IndexOf(Searchbar.Text, StringComparison.OrdinalIgnoreCase) >= 0);
+                    || ((item as DataInvoice).DisplayName.IndexOf(Searchbar.Text, StringComparison.OrdinalIgnoreCase) >= 0) ||
+                        (CompanyHelper.GetCompany((item as DataInvoice).ABN).Contacts.Where(a => a.Name.IndexOf(Searchbar.Text, StringComparison.OrdinalIgnoreCase) >= 0).Count() > 0);
+                
         }
 
         private bool FilterBoxValidated(object item)
@@ -164,6 +174,8 @@ namespace Business_Software_V2
 
             if ((checkboxes.Where(a => a.IsChecked.Value == true).Where(a => ((DataInvoice)a.DataContext).CompanyName == i.CompanyName)).Count() > 0)
                 return true;
+
+       
 
             return false;
         }
@@ -218,5 +230,51 @@ namespace Business_Software_V2
             }
         }
 
+        private void Searchbar_Keydown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Down)
+            {
+                if (listBoxInvoice.SelectedIndex + 1 < listBoxInvoice.Items.Count)
+                    listBoxInvoice.SelectedIndex++;
+                
+            }
+            if (e.Key == Key.Up)
+            {
+                if (listBoxInvoice.SelectedIndex - 1 >= 0)
+                    listBoxInvoice.SelectedIndex--;
+                
+            }
+
+            if(e.Key == Key.F6)
+            {
+                e.Handled = false;
+                ((AddInvoice)addInvoiceFrame.Content).UploadInvoicesButton_Click(sender, e);   
+            }
+
+            if (e.Key == Key.F5)
+            {
+                e.Handled = false;
+                RefreshButton(sender, e);
+            }
+
+
+            if (e.Key == Key.Return || e.Key == Key.Enter)
+            {
+                int index = listBoxInvoice.SelectedIndex;
+                if (index == -1 && listBoxInvoice.Items.Count > 0)
+                    index = 0;
+
+                if(listBoxInvoice.Items.GetItemAt(index) != null)
+                {
+                    
+                    DataInvoice i = listBoxInvoice.Items.GetItemAt(index) as DataInvoice;
+                    Process.Start(i.FilePath);
+                }
+                else
+                    MessageBox.Show("Its null!");
+            }
+        }
+
     }
 }
+
