@@ -100,11 +100,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="JobList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="InvoiceList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="InvoiceListItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="JobSitePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -116,10 +124,12 @@
     <Compile Include="AddInvoice.xaml.cs">
       <DependentUpon>AddInvoice.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AddressData.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ApplicationSetup.cs" />
     <Compile Include="CompanyHelper.cs" />
     <Compile Include="CompanyList.xaml.cs">
       <DependentUpon>CompanyList.xaml</DependentUpon>
@@ -134,6 +144,10 @@
       <DependentUpon>GenericFrameWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="InvoiceHelper.cs" />
+    <Compile Include="JobHelper.cs" />
+    <Compile Include="JobList.xaml.cs">
+      <DependentUpon>JobList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="InvoiceList.xaml.cs">
       <DependentUpon>InvoiceList.xaml</DependentUpon>
     </Compile>
@@ -141,6 +155,10 @@
       <DependentUpon>InvoiceListItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="InvoiceProcessor.cs" />
+    <Compile Include="JobData.cs" />
+    <Compile Include="JobSitePage.xaml.cs">
+      <DependentUpon>JobSitePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

@@ -1,0 +1,62 @@
+﻿<Page x:Class="Business_Software_V2.JobSitePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Business_Software_V2"
+      mc:Ignorable="d" 
+      d:DesignHeight="1080" d:DesignWidth="1920"
+      Title="JobSitePage">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="1" HorizontalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50px"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="50px"/>
+                <RowDefinition Height="50px"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50px"/>
+
+            </Grid.RowDefinitions>
+
+            <Label x:Name="label" Grid.Row="3" Content="All Documents" Margin="10,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold"/>
+            <ListView Grid.Column="1" Grid.Row="1" ItemsSource="{Binding ImportantDocuments}">
+
+            </ListView>
+
+            <Label Grid.Row="0" Content="Important Documents" Margin="10,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="16" FontWeight="Bold"/>
+            <ListView x:Name="listView" Grid.Row="4" Margin="10">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="File Path"/>
+                        <GridViewColumn Header="Date"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <Button x:Name="button" Content="Upload Document" HorizontalAlignment="Left" Margin="798,10,0,0" Grid.Row="2" VerticalAlignment="Top" Width="139" Height="30" Click="button_Click" />
+            <Button x:Name="button_Copy" Content="Upload Document" HorizontalAlignment="Left" Margin="798,10,0,0" Grid.Row="5" VerticalAlignment="Top" Width="139" Height="30"/>
+        </Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Label x:Name="label1" Content="{Binding Address, FallbackValue='221B Baker Street\, London'}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="18" FontWeight="Bold"/>
+        </Grid>
+
+
+    </Grid>
+</Page>

@@ -47,7 +47,9 @@
                 <TabItem Header="Companies">
                     <Frame Source="/Business Software V2;component/CompanyList.xaml"/>
                 </TabItem>
-                <TabItem Header="Coming Soon!" />
+                <TabItem Header="Job Debug">
+                    <Frame Source="/Business Software V2;component/JobList.xaml"/>
+                </TabItem>
             </TabControl>
 
         </DockPanel>
