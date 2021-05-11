@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
+using System;
 using System.IO;
-using Newtonsoft.Json;
-using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace Business_Software_V2.Data
 {
@@ -18,7 +14,7 @@ namespace Business_Software_V2.Data
         static string FormatABN(string abn)
         {
             abn = abn.Replace(" ", "");
-            abn = string.Format("{0:## ### ### ###}", Convert.ToUInt64(abn));
+            abn = string.Format("{0:## ### ### ###}", abn);
             return abn;
         }
 
@@ -48,7 +44,7 @@ namespace Business_Software_V2.Data
                 Directory.CreateDirectory(defaultPath + "\\" + abn);
         }
 
-        
+
         public static void CreateDirectoryFromPath(string path)
         {
             if (!Directory.Exists(path))
@@ -66,7 +62,7 @@ namespace Business_Software_V2.Data
             dataCompany.ABN = data.ABN;
             dataCompany.CompanyName = data.CompanyName;
             dataCompany.OfficeNumber = data.Phone;
-            
+
             StreamWriter writer = File.CreateText(path + "/CompanyInfo.info");
             writer.Write(JsonConvert.SerializeObject(dataCompany));
             writer.Flush();
@@ -86,7 +82,7 @@ namespace Business_Software_V2.Data
             }
             else
                 return "Company N/A";
-            
+
         }
 
         public static string[] GetAllABNs()

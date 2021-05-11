@@ -9,20 +9,18 @@
         Height="1080"
         WindowState="Normal"
         SizeToContent="WidthAndHeight"
-      Title="CompanyPage">
+      Title="CompanyPage"
+       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+     TextElement.FontWeight="Regular"
+     TextElement.FontSize="13"
+     TextOptions.TextFormattingMode="Ideal"
+     TextOptions.TextRenderingMode="Auto"
+        
+     Background="{DynamicResource MaterialDesignPaper}"
+     FontFamily="{DynamicResource MaterialDesignFont}"
+        >
 
-    <Window.Resources>
-        <Style x:Key="Header" TargetType="{x:Type Label}">
-            <Setter Property="FontSize" Value="12pt" />
-            <Setter Property="Padding" Value="0 3"/>
-        </Style>
-        <Style TargetType="{x:Type TextBox}">
-            <Setter Property="FontSize" Value="10pt"/>
-            <Setter Property="Margin" Value="5"/>
-            <Setter Property="Padding" Value="5"/>
-        </Style>
-
-    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="400"/>
@@ -32,40 +30,29 @@
         <StackPanel Margin="10">
 
             <TextBlock Text="Editing!" x:Name="EditingLabel" FontSize="20" Background="Red" HorizontalAlignment="Stretch" TextAlignment="Center" Foreground="White" Margin="0 0 0 10"/>
-            
-            <Label Style="{StaticResource Header}">Company Name:</Label>
+
+            <Label FontSize="14">Company Name:</Label>
             <TextBox x:Name="TextboxCompanyName" IsReadOnly="{Binding ReadOnly,RelativeSource={RelativeSource Mode=FindAncestor,
                                                          AncestorType=Window}}" Text="{Binding CompanyName,  FallbackValue='Name not found'}"/>
-            <Label Style="{StaticResource Header}">Office Number:</Label>
+            <Label FontSize="14">Office Number:</Label>
             <TextBox x:Name="TextboxOfficeNumber" IsReadOnly="{Binding ReadOnly,RelativeSource={RelativeSource Mode=FindAncestor,
                                                          AncestorType=Window}}" Text="{Binding OfficeNumber,  FallbackValue='N/A'}"/>
-            <Label Style="{StaticResource Header}">ABN:</Label>
+            <Label FontSize="14">ABN:</Label>
             <TextBox x:Name="TextboxABN" IsReadOnly="{Binding ReadOnly,RelativeSource={RelativeSource Mode=FindAncestor,
                                                          AncestorType=Window}}" Text="{Binding ABN, FallbackValue='N/A'}"/>
 
 
-            <Grid Grid.Column="1" Height="700" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            
+            <StackPanel Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="auto"/>
-                    
+
                 </Grid.RowDefinitions>
 
                 <ListView x:Name="ListviewContacts" ItemsSource="{Binding Contacts}" Grid.Column="1" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
 
-                    <!--<ListView.Items>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock  FontSize="20" TextAlignment="Center" Grid.Column="0" Text="{Binding Name, FallbackValue='John Smith'}"/>
-                    <TextBlock  FontSize="20" TextAlignment="Center" Grid.Column="1" Text="{Binding Phone, FallbackValue='040404040'}"/>
-                    <TextBlock  FontSize="20" TextAlignment="Center" Grid.Column="2" Text="{Binding Email, FallbackValue='John@smith.com'}"/>
-                </Grid>
-            </ListView.Items>-->
+              
 
                     <ListView.ContextMenu>
                         <ContextMenu Name="ContactsInvoiceList" StaysOpen="true" Background="WhiteSmoke">
@@ -99,9 +86,9 @@
                     </ListBox.ItemTemplate>
 
                 </ListView>
-
-
-                <Grid Grid.Row="2">
+                <Separator></Separator>
+                
+                <Grid  VerticalAlignment="Bottom">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100"/>
                         <ColumnDefinition Width="*"/>
@@ -113,8 +100,8 @@
                         <RowDefinition Height="40"/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
-                  
-                    <TextBlock VerticalAlignment="Center" Grid.Column="0" Grid.Row="0"  Width="120" TextAlignment="Center">Name</TextBlock>
+
+                    <TextBlock VerticalAlignment="Center" Grid.Column="0" Grid.Row="0" Width="120" TextAlignment="Center">Name</TextBlock>
                     <TextBlock VerticalAlignment="Center" Grid.Column="0" Grid.Row="1" Width="120" TextAlignment="Center">Email</TextBlock>
                     <TextBlock VerticalAlignment="Center" Grid.Column="0" Grid.Row="2" Width="120" TextAlignment="Center">Phone</TextBlock>
 
@@ -122,74 +109,74 @@
                     <TextBox Grid.Column="1" Grid.Row="1" x:Name="TextContactEmail"></TextBox>
                     <TextBox Grid.Column="1" Grid.Row="2" x:Name="TextContactPhone"></TextBox>
 
-                    
-                    <Button Grid.ColumnSpan="2" Grid.Row="3" Click="AddContactButton_Click">Add New Contact</Button>
-                    <Button Margin="0 10 0 0" Grid.Column="0" Grid.Row="4" Click="SaveAllButton_Click">Save All</Button>
+
+                    <Button Grid.ColumnSpan="2" Grid.Row="3" Click="AddContactButton_Click">            Add New Contact</Button>
+                    <Button Margin="0 10 0 0" Grid.Column="0" Grid.Row="4" Click="SaveAllButton_Click"> Save All</Button>
                     <Button Grid.Column="1" Margin="0 10 0 0"  Grid.Row="4" Width="100" HorizontalAlignment="Right" Click="EditButton_Click">Edit</Button>
                 </Grid>
-            </Grid>
+            </StackPanel>
         </StackPanel>
 
 
         <StackPanel Grid.Column="1" HorizontalAlignment="Left">
-            <Label FontSize="12pt" >Invoices</Label>
-        <ListView x:Name="ListViewInvoices" Grid.Column="1" Width="300" ItemsSource="{Binding CompanyInvoices,RelativeSource={RelativeSource Mode=FindAncestor,
+            <Label FontSize="12pt">Invoices</Label>
+            <ListView x:Name="ListViewInvoices" Grid.Column="1" Width="300" ItemsSource="{Binding CompanyInvoices,RelativeSource={RelativeSource Mode=FindAncestor,
                                                          AncestorType=Window}}">
 
-            <ListView.ContextMenu>
-                <ContextMenu x:Name="contextInvoiceList" StaysOpen="true" Background="WhiteSmoke">
-                    <ContextMenu.BitmapEffect>
-                        <BitmapEffectGroup/>
-                    </ContextMenu.BitmapEffect>
+                <ListView.ContextMenu>
+                    <ContextMenu x:Name="contextInvoiceList" StaysOpen="true" Background="WhiteSmoke">
+                        <ContextMenu.BitmapEffect>
+                            <BitmapEffectGroup/>
+                        </ContextMenu.BitmapEffect>
 
-                    <MenuItem Header="Remove" Name="RemoveInvoiceContextMenu" Click="RemoveInvoiceContextMenu_OnClick"/>
-                </ContextMenu>
-            </ListView.ContextMenu>
+                        <MenuItem Header="Remove" Name="RemoveInvoiceContextMenu" Click="RemoveInvoiceContextMenu_OnClick"/>
+                    </ContextMenu>
+                </ListView.ContextMenu>
 
-            <ListView.View>
+                <ListView.View>
 
-                <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="Invoice Info" >
+                    <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="Invoice Info" >
 
-                    <GridViewColumn Width="auto">
+                        <GridViewColumn Width="auto">
 
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Label
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label
                                     MouseDoubleClick="OnFileClicked"
                                     Content="{Binding DisplayName}" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
 
-                        <GridViewColumn.Header>
+                            <GridViewColumn.Header>
 
-                            <GridViewColumnHeader
+                                <GridViewColumnHeader
                                 Click="ColumnHeader_Click"
                                 Content="File Name"
                                 Tag="DisplayName" />
-                        </GridViewColumn.Header>
+                            </GridViewColumn.Header>
 
-                    </GridViewColumn>
+                        </GridViewColumn>
 
-                    <GridViewColumn Width="auto" DisplayMemberBinding="{Binding Path=Date}">
-                        <GridViewColumn.Header>
-                            <GridViewColumnHeader
+                        <GridViewColumn Width="auto" DisplayMemberBinding="{Binding Path=Date}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader
                                 Click="ColumnHeader_Click"
                                 Content="Date"
                                 Tag="Date" />
-                        </GridViewColumn.Header>
-                    </GridViewColumn>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
 
-                </GridView>
-            </ListView.View>
-            
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <Label Content="{Binding DisplayName}"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                    </GridView>
+                </ListView.View>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="{Binding DisplayName}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackPanel>
 
 

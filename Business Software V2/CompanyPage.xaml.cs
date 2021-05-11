@@ -27,7 +27,7 @@ namespace Business_Software_V2
             InitializeComponent();
             EditingLabel.Visibility = Visibility.Collapsed;
             Loaded += CompanyPage_Loaded;
-          
+
         }
 
         private void CompanyPage_Loaded(object sender, RoutedEventArgs e)
@@ -48,16 +48,16 @@ namespace Business_Software_V2
             CollectionViewSource.GetDefaultView(ListViewInvoices.ItemsSource).Refresh();
         }
 
-        
+
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             ReadOnly = !ReadOnly;
             EditingLabel.Visibility = ReadOnly ? Visibility.Collapsed : Visibility.Visible;
-            if(ReadOnly)
+            if (ReadOnly)
             {
                 var r = MessageBox.Show("Are you sure you wish to make changes to the company? This cannot be undone.", "Are you sure?", MessageBoxButton.OKCancel);
-                if(r == MessageBoxResult.OK)
+                if (r == MessageBoxResult.OK)
                 {
                     var dataCompany = (DataCompany)DataContext;
                     dataCompany.ABN = TextboxABN.Text;

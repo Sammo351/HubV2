@@ -1,11 +1,7 @@
 ﻿using Business_Software_V2.Data;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business_Software_V2
 {
@@ -16,14 +12,15 @@ namespace Business_Software_V2
         public string FilePath
         {
             get { return _filePath; }
-            
-                set {
-                    if (_filePath != value)
-                    {
+
+            set
+            {
+                if (_filePath != value)
+                {
                     _filePath = value;
-                        OnPropertyChanged("FilePath");
-                    }
+                    OnPropertyChanged("FilePath");
                 }
+            }
         }
 
         string _abn;
@@ -66,6 +63,6 @@ namespace Business_Software_V2
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
-    
+
     }
 }

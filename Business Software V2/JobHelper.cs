@@ -1,6 +1,4 @@
-﻿using Business_Software_V2.Data;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 
 namespace Business_Software_V2

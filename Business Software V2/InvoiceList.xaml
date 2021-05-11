@@ -13,20 +13,20 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="330"/>
+            <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
 
         <!-- List -->
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="30" />
-                <RowDefinition Height="327*" />
-                <RowDefinition Height="23*"/>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="23"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="70"/>
-                <ColumnDefinition x:Name="colAdd" Width="auto" />
+                <ColumnDefinition Width="400" />
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition x:Name="colAdd" Width="500" />
             </Grid.ColumnDefinitions>
 
 

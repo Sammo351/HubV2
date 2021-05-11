@@ -6,19 +6,10 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Business_Software_V2
 {
@@ -39,13 +30,13 @@ namespace Business_Software_V2
             ABNHelper.UpdatedBusinessCard += RepopulateInvoices;
             Loaded += InvoiceList_Loaded;
             stop.Stop();
-            
+
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listBoxInvoice.ItemsSource);
             view.Filter = ListFilter;
-            
+
         }
 
-       
+
         private void InvoiceList_Loaded(object sender, RoutedEventArgs e)
         {
             Searchbar.Focus();
@@ -75,7 +66,7 @@ namespace Business_Software_V2
             List<string> companyNames = new List<string>();
             foreach (DataInvoice invoice in Invoices)
             {
-                
+
                 if (!companyNames.Contains(invoice.CompanyName))
                 {
                     companyNames.Add(invoice.CompanyName);
@@ -95,6 +86,7 @@ namespace Business_Software_V2
         private void RefreshButton(object sender, RoutedEventArgs e)
         {
             RepopulateInvoices();
+            EmailProcessing.ShowPop3Subjects();
         }
 
 
@@ -154,7 +146,7 @@ namespace Business_Software_V2
                     || ((item as DataInvoice).ABN.IndexOf(Searchbar.Text, StringComparison.OrdinalIgnoreCase) >= 0)
                     || ((item as DataInvoice).DisplayName.IndexOf(Searchbar.Text, StringComparison.OrdinalIgnoreCase) >= 0) ||
                         (CompanyHelper.GetCompany((item as DataInvoice).ABN).Contacts.Where(a => a.Name.IndexOf(Searchbar.Text, StringComparison.OrdinalIgnoreCase) >= 0).Count() > 0);
-                
+
         }
 
         private bool FilterBoxValidated(object item)
@@ -175,7 +167,7 @@ namespace Business_Software_V2
             if ((checkboxes.Where(a => a.IsChecked.Value == true).Where(a => ((DataInvoice)a.DataContext).CompanyName == i.CompanyName)).Count() > 0)
                 return true;
 
-       
+
 
             return false;
         }
@@ -198,7 +190,7 @@ namespace Business_Software_V2
             window.DataContext = CompanyHelper.GetCompany(d.ABN);
             window.Owner = Application.Current.MainWindow;
             window.Show();
-            
+
         }
 
         private void ListboxChanged(object sender, SelectionChangedEventArgs e)
@@ -236,19 +228,19 @@ namespace Business_Software_V2
             {
                 if (listBoxInvoice.SelectedIndex + 1 < listBoxInvoice.Items.Count)
                     listBoxInvoice.SelectedIndex++;
-                
+
             }
             if (e.Key == Key.Up)
             {
                 if (listBoxInvoice.SelectedIndex - 1 >= 0)
                     listBoxInvoice.SelectedIndex--;
-                
+
             }
 
-            if(e.Key == Key.F6)
+            if (e.Key == Key.F6)
             {
                 e.Handled = false;
-                ((AddInvoice)addInvoiceFrame.Content).UploadInvoicesButton_Click(sender, e);   
+                ((AddInvoice)addInvoiceFrame.Content).UploadInvoicesButton_Click(sender, e);
             }
 
             if (e.Key == Key.F5)
@@ -264,9 +256,9 @@ namespace Business_Software_V2
                 if (index == -1 && listBoxInvoice.Items.Count > 0)
                     index = 0;
 
-                if(listBoxInvoice.Items.GetItemAt(index) != null)
+                if (listBoxInvoice.Items.GetItemAt(index) != null)
                 {
-                    
+
                     DataInvoice i = listBoxInvoice.Items.GetItemAt(index) as DataInvoice;
                     Process.Start(i.FilePath);
                 }

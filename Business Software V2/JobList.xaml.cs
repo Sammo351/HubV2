@@ -25,13 +25,13 @@ namespace Business_Software_V2
             listBoxInvoice.ItemsSource = Jobs;
             Loaded += JobList_Loaded;
             stop.Stop();
-            
+
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listBoxInvoice.ItemsSource);
             view.Filter = ListFilter;
-            
+
         }
 
-       
+
         private void JobList_Loaded(object sender, RoutedEventArgs e)
         {
             Searchbar.Focus();
@@ -114,7 +114,7 @@ namespace Business_Software_V2
                 return true;
             else
                 return ((item as JobData).Address.ToString().IndexOf(Searchbar.Text, StringComparison.OrdinalIgnoreCase) >= 0);
-                
+
         }
 
         private void Searchbar_TextChanged(object sender, TextChangedEventArgs e)
@@ -168,13 +168,13 @@ namespace Business_Software_V2
             {
                 if (listBoxInvoice.SelectedIndex + 1 < listBoxInvoice.Items.Count)
                     listBoxInvoice.SelectedIndex++;
-                
+
             }
             if (e.Key == Key.Up)
             {
                 if (listBoxInvoice.SelectedIndex - 1 >= 0)
                     listBoxInvoice.SelectedIndex--;
-                
+
             }
 
 
@@ -191,9 +191,9 @@ namespace Business_Software_V2
                 if (index == -1 && listBoxInvoice.Items.Count > 0)
                     index = 0;
 
-                if(listBoxInvoice.Items.GetItemAt(index) != null)
+                if (listBoxInvoice.Items.GetItemAt(index) != null)
                 {
-                    
+
                     DataInvoice i = listBoxInvoice.Items.GetItemAt(index) as DataInvoice;
                     Process.Start(i.FilePath);
                 }

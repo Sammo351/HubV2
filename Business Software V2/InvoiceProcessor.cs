@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows;
-using Business_Software_V2.Data;
-using IronOcr;
+﻿using IronOcr;
 using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.parser;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Net;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Xceed.Words.NET;
 
 namespace Business_Software_V2
@@ -100,7 +96,7 @@ namespace Business_Software_V2
 
 
                 text += doc.Text;
-                
+
                 Console.WriteLine(text);
             }
             else
@@ -113,7 +109,9 @@ namespace Business_Software_V2
 
         private static ProcessedInvoice ProcessInvoice(string result, string path)
         {
-            Regex rx = new Regex(@"(\d{3}\s*\d{3}\s*\d{3}\s*\d{2})|(\d{2}\s *\d{3}\s *\d{3}\s*\d{3})", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
+
+            Regex rx = new Regex(@"ABN[:]([ \d]*?)$", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace | RegexOptions.Multiline);
+          //  Regex rx = new Regex(@"(\d{3}\s*\d{3}\s*\d{3}\s*\d{2})|(\d{2}\s *\d{3}\s *\d{3}\s*\d{3})", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
             Regex email = new Regex(@"[\w\d\-]*[@][\w\d\-]*(.com.au|.com)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
             Regex phone = new Regex(@"(?:\+?61|0)[2-478 ](?:[ -]?[0-9]){8}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
@@ -121,11 +119,11 @@ namespace Business_Software_V2
 
 
             Match emailMatch = email.Match(result);
-            Match abnMatch = rx.Match(result);
+            Group abnMatch = rx.Match(result).Groups[1];
             Match phoneMatch = phone.Match(result);
 
             string abn = abnMatch.Value;
-          
+
 
             string input = new WebClient().DownloadString(@"https://abr.business.gov.au/ABN/View?id=" + abn.Replace(" ", ""));
 
