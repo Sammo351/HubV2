@@ -16,25 +16,26 @@ namespace Business_Software_V2
 
         private const int cPopPort = 110;
 
-        public static void ShowPop3Subjects()
+        public static async Task ShowPop3Subjects()
 
         {
+          
+                using (EmailParser ep =
 
-            using (EmailParser ep =
+                       new EmailParser(cPopUserName,
 
-                   new EmailParser(cPopUserName,
+                       cPopPwd, cPopMailServer, cPopPort))
 
-                   cPopPwd, cPopMailServer, cPopPort))
+                {
 
-            {
+                    ep.OpenPop3();
 
-                ep.OpenPop3();
+                    await ep.DisplayPop3SubjectsAsync();
 
-                ep.DisplayPop3Subjects();
+                    ep.ClosePop3();
 
-                ep.ClosePop3();
-
-            }
+                }
+          
 
         }
 

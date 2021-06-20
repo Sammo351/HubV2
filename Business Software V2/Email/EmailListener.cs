@@ -1,4 +1,6 @@
-﻿using MailKit.Net.Pop3;
+﻿using Business_Software_V2.Data;
+using Business_Software_V2.Email;
+using MailKit.Net.Pop3;
 using MimeKit;
 using System;
 using System.Collections.Generic;
@@ -81,17 +83,19 @@ namespace Business_Software_V2
 
 
 
-        public void DisplayPop3Subjects()
+        public async Task DisplayPop3SubjectsAsync()
 
         {
+            BotVisitor v = new BotVisitor();
+            
 
             for (int i = 0; i < Pop3?.Count; i++)
-
             {
-
+                //Pop3.DeleteMessage(i);
                 MimeMessage message = Pop3.GetMessage(i);
-                
+                v.Visit(message);
                 Console.WriteLine("Subject: {0}", message.Subject);
+                List<String> Messages = new List<string>();
                 if (message.Attachments != null)
                 {
                     foreach (MimeEntity mime in message.Attachments)
@@ -100,21 +104,38 @@ namespace Business_Software_V2
                         {
                             var mp = (MimePart)mime;
                             string path = Path.Combine(@"D:\Desktop\Hub Test Folder", mime.ContentType.Name);
+                            Console.WriteLine("Name: " + mime.ContentType.Name);
                             using (var stream = File.Create(path))
                             {
                                 mp.Content.DecodeTo(stream);
-
                             }
-                            DataProcessing.ProcessInvoices(path);
-            //File.Delete(path);
+                            ProcessedInvoice[] processedInvoices = await DataProcessing.ProcessInvoices(path);
+
+                            Messages.Add($"<p>\t  - Processed {mime.ContentType.Name} as Invoice for {ABNHelper.GetCompanyName(processedInvoices[0].ABN)}</p>");
+                            //File.Delete(path);
                         }
                     }
+
                 }
 
-            }
+           
+                EmailService service = new EmailService();
+                MailboxAddress address = message.From.Mailboxes.First();
+                Console.WriteLine(address);
+                string body = "<h3><b><u>Items Processed:</h3></b></u> \n";
+                for(int j = 0; j < Messages.Count; j++)
+                {
+                    body += Messages[j] + '\n';
+                }
 
+               service.Send("bot@wulfrunconstructions.com", address.Address, $"Re: {message.Subject}", body );
+                
+
+            }
             Pop3.DeleteAllMessages();
-            
+
+    
+
         }
 
 

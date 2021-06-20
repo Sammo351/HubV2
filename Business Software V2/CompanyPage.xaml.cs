@@ -63,6 +63,7 @@ namespace Business_Software_V2
                     dataCompany.ABN = TextboxABN.Text;
                     dataCompany.CompanyName = TextboxCompanyName.Text;
                     dataCompany.OfficeNumber = TextboxOfficeNumber.Text;
+                    dataCompany.Email = TextboxEmail.Text;
                     CompanyHelper.SaveChanges(dataCompany);
                 }
             }
@@ -83,6 +84,7 @@ namespace Business_Software_V2
             TextContactName.Clear();
             TextContactEmail.Clear();
             TextContactPhone.Clear();
+            TextboxEmail.Clear();
         }
 
         private void SaveAllButton_Click(object sender, RoutedEventArgs e)

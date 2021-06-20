@@ -5,11 +5,10 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Business_Software_V2"
       mc:Ignorable="d" 
-      Width="1920"
-        Height="1080"
-        WindowState="Normal"
-        SizeToContent="WidthAndHeight"
-      Title="CompanyPage"
+      Width="auto"
+        Height="auto"
+       WindowState="Normal"
+    
        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
      TextElement.FontWeight="Regular"
@@ -17,42 +16,42 @@
      TextOptions.TextFormattingMode="Ideal"
      TextOptions.TextRenderingMode="Auto"
         
+        
      Background="{DynamicResource MaterialDesignPaper}"
      FontFamily="{DynamicResource MaterialDesignFont}"
         >
 
-    <Grid>
+    <Grid Height="{Binding ActualHeight, 
+              RelativeSource ={RelativeSource AncestorType = {x:Type Window}}}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="400"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <StackPanel Margin="10">
+        <DockPanel Grid.Column="0" Height="{Binding ActualHeight, 
+              RelativeSource ={RelativeSource AncestorType = {x:Type Window}}}" LastChildFill="False">
 
-            <TextBlock Text="Editing!" x:Name="EditingLabel" FontSize="20" Background="Red" HorizontalAlignment="Stretch" TextAlignment="Center" Foreground="White" Margin="0 0 0 10"/>
+            <StackPanel DockPanel.Dock="Top" Margin="20">
+                <TextBlock Text="Editing!" x:Name="EditingLabel" FontSize="20" Background="Red" HorizontalAlignment="Stretch" TextAlignment="Center" Foreground="White" Margin="0 0 0 10"/>
 
-            <Label FontSize="14">Company Name:</Label>
-            <TextBox x:Name="TextboxCompanyName" IsReadOnly="{Binding ReadOnly,RelativeSource={RelativeSource Mode=FindAncestor,
-                                                         AncestorType=Window}}" Text="{Binding CompanyName,  FallbackValue='Name not found'}"/>
-            <Label FontSize="14">Office Number:</Label>
-            <TextBox x:Name="TextboxOfficeNumber" IsReadOnly="{Binding ReadOnly,RelativeSource={RelativeSource Mode=FindAncestor,
-                                                         AncestorType=Window}}" Text="{Binding OfficeNumber,  FallbackValue='N/A'}"/>
-            <Label FontSize="14">ABN:</Label>
-            <TextBox x:Name="TextboxABN" IsReadOnly="{Binding ReadOnly,RelativeSource={RelativeSource Mode=FindAncestor,
-                                                         AncestorType=Window}}" Text="{Binding ABN, FallbackValue='N/A'}"/>
+                <Label FontSize="20">Company Name:</Label>
+                <TextBox Margin="20 0 0 0"  x:Name="TextboxCompanyName" IsReadOnly="{Binding ReadOnly,RelativeSource={RelativeSource Mode=FindAncestor,
+                                                             AncestorType=Window}}" Text="{Binding CompanyName,  FallbackValue='Name not found'}"/>
+                <Label FontSize="14">Office Number:</Label>
+                <TextBox Margin="20 0 0 0" x:Name="TextboxOfficeNumber" IsReadOnly="{Binding ReadOnly,RelativeSource={RelativeSource Mode=FindAncestor,
+                                                             AncestorType=Window}}" Text="{Binding OfficeNumber,  FallbackValue='N/A'}"/>
+                <Label FontSize="14">ABN:</Label>
+                <TextBox Margin="20 0 0 0" Name="TextboxABN" IsReadOnly="{Binding ReadOnly,RelativeSource={RelativeSource Mode=FindAncestor,
+                                                             AncestorType=Window}}" Text="{Binding ABN, FallbackValue='N/A'}"/>
+                <Label FontSize="14">Email:</Label>
+                <TextBox Margin="20 0 0 0" Name="TextboxEmail" IsReadOnly="{Binding ReadOnly,RelativeSource={RelativeSource Mode=FindAncestor,
+                                                             AncestorType=Window}}" Text="{Binding Email, FallbackValue='N/A'}"/>
 
-
-            
-            <StackPanel Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="auto"/>
-
-                </Grid.RowDefinitions>
 
                 <ListView x:Name="ListviewContacts" ItemsSource="{Binding Contacts}" Grid.Column="1" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
-
-              
 
                     <ListView.ContextMenu>
                         <ContextMenu Name="ContactsInvoiceList" StaysOpen="true" Background="WhiteSmoke">
@@ -86,9 +85,10 @@
                     </ListBox.ItemTemplate>
 
                 </ListView>
-                <Separator></Separator>
                 
-                <Grid  VerticalAlignment="Bottom">
+            </StackPanel>
+
+            <Grid Height="260" DockPanel.Dock="Bottom" Margin="20">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100"/>
                         <ColumnDefinition Width="*"/>
@@ -101,21 +101,21 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock VerticalAlignment="Center" Grid.Column="0" Grid.Row="0" Width="120" TextAlignment="Center">Name</TextBlock>
-                    <TextBlock VerticalAlignment="Center" Grid.Column="0" Grid.Row="1" Width="120" TextAlignment="Center">Email</TextBlock>
-                    <TextBlock VerticalAlignment="Center" Grid.Column="0" Grid.Row="2" Width="120" TextAlignment="Center">Phone</TextBlock>
+                    <TextBlock VerticalAlignment="Center" Grid.Row="0" Width="120" TextAlignment="Left">Name</TextBlock>
+                    <TextBlock VerticalAlignment="Center" Grid.Row="1" Width="120" TextAlignment="Left">Email</TextBlock>
+                    <TextBlock VerticalAlignment="Center" Grid.Row="2" Width="120" TextAlignment="Left">Phone</TextBlock>
 
-                    <TextBox HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="0" x:Name="TextContactName"></TextBox>
-                    <TextBox Grid.Column="1" Grid.Row="1" x:Name="TextContactEmail"></TextBox>
-                    <TextBox Grid.Column="1" Grid.Row="2" x:Name="TextContactPhone"></TextBox>
+                    <TextBox VerticalContentAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="0" x:Name="TextContactName"></TextBox>
+                    <TextBox VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" x:Name="TextContactEmail"></TextBox>
+                    <TextBox VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="2" x:Name="TextContactPhone"></TextBox>
 
-
-                    <Button Grid.ColumnSpan="2" Grid.Row="3" Click="AddContactButton_Click">            Add New Contact</Button>
-                    <Button Margin="0 10 0 0" Grid.Column="0" Grid.Row="4" Click="SaveAllButton_Click"> Save All</Button>
-                    <Button Grid.Column="1" Margin="0 10 0 0"  Grid.Row="4" Width="100" HorizontalAlignment="Right" Click="EditButton_Click">Edit</Button>
+                
+                <Button Grid.ColumnSpan="2" Grid.Row="3" Click="AddContactButton_Click">            Add New Contact</Button>
+                    <Button Grid.Column="0" Grid.Row="4" Click="SaveAllButton_Click"> Save All</Button>
+                    <Button Grid.Column="1"  Grid.Row="4" Width="120" HorizontalAlignment="Right" Click="EditButton_Click">Edit</Button>
                 </Grid>
-            </StackPanel>
-        </StackPanel>
+            
+        </DockPanel>
 
 
         <StackPanel Grid.Column="1" HorizontalAlignment="Left">

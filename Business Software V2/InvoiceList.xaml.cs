@@ -180,7 +180,11 @@ namespace Business_Software_V2
         private void OnFileClicked(object sender, MouseButtonEventArgs e)
         {
             var d = (DataInvoice)((Label)sender).DataContext;
-            Process.Start(d.FilePath);
+            try
+            {
+                Process.Start(d.FilePath);
+            }
+            catch (Exception ex) { Console.WriteLine(ex.Message); }
         }
 
         private void OnCompanyClicked(object sender, RoutedEventArgs e)

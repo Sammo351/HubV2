@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Business_Software_V2"
         mc:Ignorable="d"
-        Title="PromptTextDialog" Height="100" Width="300">
+        Title="PromptTextDialog" Height="auto" Width="300"
+        >
     <StackPanel>
         <Label FontSize="12pt" x:Name="CaptionLabel">Can't find ABN, please specify.</Label>
         <TextBox Height="30" FontSize="12pt" x:Name="text" PreviewKeyDown="text_PreviewKeyDown"/>

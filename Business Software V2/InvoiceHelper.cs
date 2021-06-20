@@ -22,7 +22,7 @@ namespace Business_Software_V2
                     foreach (string s in Invoices)
                     {
                         DataInvoice invoice = new DataInvoice();
-                        invoice.ABN = Path.GetFileName(abn);
+                        invoice.ABN = ABNHelper.FormatABN(Path.GetFileName(abn));
                         invoice.FilePath = s;
                         invoices.Add(invoice);
                     }

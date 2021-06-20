@@ -32,10 +32,10 @@
 
         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20px">Add New Invoices</TextBlock>
         <Rectangle Grid.Row="1" Fill="LightGray" AllowDrop="True" Drop="ItemsDropped"/>
-        <TextBlock Grid.Row="1" FontSize="20px" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#B2000000" IsHitTestVisible="False" >Drop Invoices Here</TextBlock>
+        <TextBlock Grid.Row="1" FontSize="12px" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="DarkGray" IsHitTestVisible="False" FontStyle="Italic">Drop Invoices Here</TextBlock>
 
 
-        <Button Grid.Row="2" Content="Upload Invoice/s" Margin="0 10" HorizontalAlignment="Right" Width="120" Click="UploadInvoicesButton_Click"/>
+        <Button Grid.Row="2" Content="Upload Invoice/s" Margin="0 10" HorizontalAlignment="Right" Width="auto" Click="UploadInvoicesButton_Click"/>
 
         <ProgressBar x:Name="processingBar" Grid.Row="3" Margin="0 10" Height="30" VerticalAlignment="Top"></ProgressBar>
         <Label Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15px">History</Label>

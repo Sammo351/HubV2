@@ -6,7 +6,16 @@
       xmlns:local="clr-namespace:Business_Software_V2"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="CompanyList">
+      Title="CompanyList"
+       TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    
+     TextElement.FontWeight="Regular"
+     TextElement.FontSize="13"
+     TextOptions.TextFormattingMode="Ideal"
+     TextOptions.TextRenderingMode="Auto"
+     Background="{DynamicResource MaterialDesignPaper}"
+     FontFamily="{DynamicResource MaterialDesignFont}"
+      >
 
     <Grid>
 
@@ -74,7 +83,7 @@
                         </GridViewColumn.Header>
                     </GridViewColumn>
 
-                    <GridViewColumn Width="100" DisplayMemberBinding="{Binding Path=ABN}">
+                    <GridViewColumn Width="100" DisplayMemberBinding="{Binding Path=ABN}" >
                         <GridViewColumn.Header>
                             <GridViewColumnHeader
                                 Click="ColumnHeader_Click"

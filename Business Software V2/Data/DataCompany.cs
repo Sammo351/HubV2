@@ -22,6 +22,22 @@ namespace Business_Software_V2
             }
         }
 
+
+        string _email;
+        public string Email
+        {
+            get { return _email; }
+
+            set
+            {
+                if (_email != value)
+                {
+                    _email = value;
+                    OnPropertyChanged("Email");
+                }
+            }
+        }
+
         string _companyName;
         public string CompanyName
         {

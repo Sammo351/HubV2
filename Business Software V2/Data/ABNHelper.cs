@@ -11,10 +11,14 @@ namespace Business_Software_V2.Data
 
         public static string defaultPath = @"D:\Desktop\Hub Test Folder\Trades";
 
-        static string FormatABN(string abn)
+        public static string FormatABN(string abn)
         {
             abn = abn.Replace(" ", "");
-            abn = string.Format("{0:## ### ### ###}", abn);
+            
+            String format = "00 000 000 000";
+            ulong a = Convert.ToUInt64(abn);
+            abn = a.ToString(format);
+            Console.WriteLine(abn);
             return abn;
         }
 
@@ -54,14 +58,15 @@ namespace Business_Software_V2.Data
 
         public static void SetupInfoFile(ABNData data)
         {
-            CreateDirectory(data.ABN);
+            CreateDirectory(FormatABN(data.ABN));
 
             string path = GetDirectory(data.ABN);
             string x = JsonConvert.SerializeObject(data);
             DataCompany dataCompany = new DataCompany();
-            dataCompany.ABN = data.ABN;
+            dataCompany.ABN = FormatABN(data.ABN);
             dataCompany.CompanyName = data.CompanyName;
             dataCompany.OfficeNumber = data.Phone;
+            dataCompany.Email = data.Email;
 
             StreamWriter writer = File.CreateText(path + "/CompanyInfo.info");
             writer.Write(JsonConvert.SerializeObject(dataCompany));

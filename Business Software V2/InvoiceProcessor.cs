@@ -69,6 +69,7 @@ namespace Business_Software_V2
             {
                 PdfReader reader = new PdfReader(path);
                 text = PdfTextExtractor.GetTextFromPage(reader, 1);
+                
             }
             else if (System.IO.Path.GetExtension(path) == ".docx")
             {

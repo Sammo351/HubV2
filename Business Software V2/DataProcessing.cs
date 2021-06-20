@@ -15,7 +15,7 @@ namespace Business_Software_V2
     {
         
 
-        public static void ProcessInvoices(params string[] files)
+        public static async Task<ProcessedInvoice[]> ProcessInvoices(params string[] files)
         {
             //textBlock.Text = results[0].Email;
             ProcessedInvoice[] results = null;
@@ -23,7 +23,7 @@ namespace Business_Software_V2
             stopwatch.Start();
             
 
-            var t = Task.Run(() =>
+            await Task.Run(() =>
             {
                 results = InvoiceProcessor.Process(files);
                 Application.Current.Dispatcher.Invoke(() =>
@@ -37,7 +37,12 @@ namespace Business_Software_V2
                     //textBlock.Text += "\n Time: " + stopwatch.Elapsed;
                 
                 });
+
+                return results;
+              
             });
+
+            return results;
         }
 
         static void TryABN(ProcessedInvoice inv)
@@ -59,6 +64,7 @@ namespace Business_Software_V2
                 if (response == MessageBoxResult.Yes)
                 {
                     NewABN newABN = new NewABN();
+                    newABN.InvoiceFile = inv.FilePath;
                     newABN.DataContext = new ABNData() { ABN = inv.ABN, Email = inv.Email, Phone = inv.Phone, CompanyName = inv.CompanyName };
                     newABN.Show();
                 }

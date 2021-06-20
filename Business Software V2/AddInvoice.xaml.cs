@@ -21,7 +21,7 @@ namespace Business_Software_V2
         public AddInvoice()
         {
             InitializeComponent();
-            processingBar.Visibility = Visibility.Collapsed;
+            
             PreviewKeyDown += AddInvoice_PreviewKeyDown;
         }
 
@@ -64,17 +64,20 @@ namespace Business_Software_V2
             stopwatch.Start();
             processingBar.IsIndeterminate = true;
             processingBar.Visibility = Visibility.Visible;
-
+            int processedCount = 0;
             var t = Task.Run(() =>
             {
                 results = InvoiceProcessor.Process(files);
                 this.Dispatcher.Invoke(() =>
                 {
+                    processingBar.IsIndeterminate = false;
                     stopwatch.Stop();
                     foreach (ProcessedInvoice inv in results)
                     {
+                        processedCount++;
                         // textBlock.Text += $"{inv.ABN} : {inv.Email} | GST: {inv.GstRegistered} \n";
                         TryABN(inv);
+                        processingBar.Value = processingBar.Maximum * (results.Length / processedCount);
                     }
                     //textBlock.Text += "\n Time: " + stopwatch.Elapsed;
                     processingBar.Visibility = Visibility.Visible;
@@ -82,6 +85,7 @@ namespace Business_Software_V2
                     processingBar.Value = processingBar.Maximum;
                 });
             });
+
         }
 
         void TryABN(ProcessedInvoice inv)
@@ -89,7 +93,7 @@ namespace Business_Software_V2
             if (String.IsNullOrEmpty(inv.ABN))
             {
                 PromptTextDialog promptTextDialog = new PromptTextDialog();
-                promptTextDialog.SetCaption("Can't find ABN, please specify $$");
+                promptTextDialog.SetCaption("Can't find ABN, please specify");
                 promptTextDialog.ShowDialog();
                 inv.ABN = promptTextDialog.Text;
             }
@@ -103,7 +107,8 @@ namespace Business_Software_V2
                 if (response == MessageBoxResult.Yes)
                 {
                     NewABN newABN = new NewABN();
-                    newABN.DataContext = new ABNData() { ABN = inv.ABN, Email = inv.Email, Phone = inv.Phone, CompanyName = inv.CompanyName };
+                    newABN.InvoiceFile = inv.FilePath;
+                    newABN.DataContext = new ABNData() {  ABN = inv.ABN, Email = inv.Email, Phone = inv.Phone, CompanyName = inv.CompanyName };
                     newABN.Show();
                 }
             }

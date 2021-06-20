@@ -8,6 +8,15 @@
     Title="Job List"
     d:DesignHeight="1080"
     d:DesignWidth="1920"
+     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    
+     TextElement.FontWeight="Regular"
+     TextElement.FontSize="13"
+     TextOptions.TextFormattingMode="Ideal"
+     TextOptions.TextRenderingMode="Auto"
+     Background="{DynamicResource MaterialDesignPaper}"
+     FontFamily="{DynamicResource MaterialDesignFont}"
     mc:Ignorable="d">
 
     <Grid>
@@ -59,7 +68,7 @@
             ItemsSource="{Binding Jobs}">
 
                     <ListView.ContextMenu>
-                        <ContextMenu Name="contextInvoiceList" StaysOpen="true" Background="WhiteSmoke">
+                        <ContextMenu Name="contextInvoiceList" StaysOpen="true" >
                             <ContextMenu.BitmapEffect>
                                 <BitmapEffectGroup/>
                             </ContextMenu.BitmapEffect>
@@ -116,7 +125,7 @@
                     </ListView.View>
 
                 </ListView>
-                <StackPanel Grid.Column="1" Margin="10" Background="LightSteelBlue" MinHeight="200" MaxHeight="500" VerticalAlignment="Top" Height="auto">
+                <StackPanel Grid.Column="1" Margin="10" MinHeight="200" MaxHeight="500" VerticalAlignment="Top" Height="auto">
                     <Label FontSize="15">Filter</Label>
                     <ListBox x:Name="FilterBox" MinHeight="100" SelectionChanged="ListboxChanged">
 

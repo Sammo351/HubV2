@@ -8,6 +8,14 @@
     Title="InvoiceList"
     d:DesignHeight="1080"
     d:DesignWidth="1920"
+     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    
+     TextElement.FontWeight="Regular"
+     TextElement.FontSize="13"
+     TextOptions.TextFormattingMode="Ideal"
+     TextOptions.TextRenderingMode="Auto"
+     Background="{DynamicResource MaterialDesignPaper}"
+     FontFamily="{DynamicResource MaterialDesignFont}"
     mc:Ignorable="d">
 
     <Grid>
@@ -60,7 +68,7 @@
             ItemsSource="{Binding Invoices}">
 
                     <ListView.ContextMenu>
-                        <ContextMenu Name="contextInvoiceList" StaysOpen="true" Background="WhiteSmoke">
+                        <ContextMenu Name="contextInvoiceList" StaysOpen="true">
                             <ContextMenu.BitmapEffect>
                                 <BitmapEffectGroup/>
                             </ContextMenu.BitmapEffect>
@@ -71,7 +79,7 @@
 
                     <ListView.View>
 
-                        <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="Invoice Info" >
+                        <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="Invoice Info">
 
                             <GridViewColumn Width="200">
 
@@ -112,7 +120,7 @@
                                 </GridViewColumn.Header>
                             </GridViewColumn>
 
-                            <GridViewColumn Width="100" DisplayMemberBinding="{Binding Path=ABN}">
+                            <GridViewColumn Width="auto" DisplayMemberBinding="{Binding Path=ABN, StringFormat='0:## ### ### ###'}">
                                 <GridViewColumn.Header>
                                     <GridViewColumnHeader
                                 Click="ColumnHeader_Click"
@@ -122,7 +130,7 @@
                             </GridViewColumn>
 
 
-                            <GridViewColumn Width="70" DisplayMemberBinding="{Binding Path=Date}">
+                            <GridViewColumn Width="auto" DisplayMemberBinding="{Binding Path=Date}">
                                 <GridViewColumn.Header>
                                     <GridViewColumnHeader
                                 Click="ColumnHeader_Click"
@@ -136,39 +144,22 @@
                         </GridView>
                     </ListView.View>
 
-                    <!--<ListView.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-
-                        <StackPanel Grid.Column="0">
-                            <TextBlock Text="Name: " />
-                            <TextBlock FontWeight="Bold" Text="{Binding DisplayName}" />
-                        </StackPanel>
-
-                        <StackPanel Grid.Column="1">
-                            <TextBlock Text="ABN: " />
-                            <TextBlock FontWeight="Bold" Text="{Binding ABN}" />
-                        </StackPanel>
-                        <Separator Grid.ColumnSpan="2" />
-
-                    </Grid>
-                </DataTemplate>
-            </ListView.ItemTemplate>-->
+                    
                 </ListView>
-                <StackPanel Grid.Column="1" Margin="10" Background="LightSteelBlue" MinHeight="200" MaxHeight="500" VerticalAlignment="Top" Height="auto">
+                <Border BorderBrush="Black" Grid.Column="1" BorderThickness="0.5">
+                <StackPanel Grid.Column="1" Margin="10" MinHeight="200" MaxHeight="500" VerticalAlignment="Top" Height="auto">
                     <Label FontSize="15">Filter</Label>
-                    <ListBox x:Name="FilterBox" MinHeight="100" SelectionChanged="ListboxChanged">
-
+                    <ListBox x:Name="FilterBox" MinHeight="100" SelectionChanged="ListboxChanged" >
                     </ListBox>
                 </StackPanel>
+                </Border>
             </Grid>
 
         </Grid>
-            <Frame HorizontalAlignment="Right"  x:Name="addInvoiceFrame" Grid.Column="2" Source="/Business Software V2;component/AddInvoice.xaml"/>
-        
+
+        <Border BorderBrush="Black" BorderThickness="0.5" Grid.Column="2">
+            <Frame Grid.Column="2" HorizontalAlignment="Right"  x:Name="addInvoiceFrame" Source="/Business Software V2;component/AddInvoice.xaml"/>
+        </Border>
+
     </Grid>
 </Page>

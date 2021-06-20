@@ -6,36 +6,58 @@
     xmlns:local="clr-namespace:Business_Software_V2"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="NewABN"
-    Width="430"
-    Height="264"
-    mc:Ignorable="d">
-    <StackPanel Margin="10">
-        <Label>ABN</Label>
-        <TextBox Name="ABN" Text="{Binding ABN}" />
+    Width="auto"
+    Height="auto"
+    mc:Ignorable="d"
+    Loaded="Window_Loaded"
+      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+     TextElement.FontWeight="Regular"
+     TextElement.FontSize="13"
+     TextOptions.TextFormattingMode="Ideal"
+     TextOptions.TextRenderingMode="Auto"
+        
+        
+     Background="{DynamicResource MaterialDesignPaper}"
+     FontFamily="{DynamicResource MaterialDesignFont}"
+    >
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
 
-        <Label>Company Name</Label>
-        <TextBox Name="Company" Text="{Binding CompanyName}" />
+        <StackPanel Margin="10">
+            <Label>ABN</Label>
+            <TextBox Name="ABN" Text="{Binding ABN}" />
 
-        <Label>Email</Label>
-        <TextBox Name="Email" Text="{Binding Email}" />
+            <Label>Company Name</Label>
+            <TextBox Name="Company" Text="{Binding CompanyName}" />
 
-        <Label>Phone Number</Label>
-        <TextBox Name="Phone" Text="{Binding Phone}" />
+            <Label>Email</Label>
+            <TextBox Name="Email" Text="{Binding Email}" />
 
-        <StackPanel
+            <Label>Phone Number</Label>
+            <TextBox Name="Phone" Text="{Binding Phone}" />
+
+            <StackPanel
             Margin="0,10"
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
             Orientation="Horizontal">
-            <Button
+                <Button
                 Margin="10,0"
                 Padding="4"
                 Content="Cancel" />
-            <Button
+                <Button
                 Margin="10,0"
                 Padding="4"
                 Click="AcceptNewABN"
                 Content="Ok" />
+            </StackPanel>
         </StackPanel>
-    </StackPanel>
+
+        <Border Grid.Column="1" BorderBrush="Black" BorderThickness="5">
+        <WebBrowser Grid.Column="1" x:Name="pdfViewer"/>
+        </Border>
+    </Grid>
 </Window>
