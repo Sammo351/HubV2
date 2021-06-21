@@ -50,10 +50,10 @@ namespace Business_Software_V2
             PopulateJobs();
         }
 
-        public ObservableCollection<JobData> Jobs = new ObservableCollection<JobData>();
+        public ObservableCollection<DataJob> Jobs = new ObservableCollection<DataJob>();
         public void PopulateJobs()
         {
-            foreach (JobData inv in JobHelper.GetAllJobs())
+            foreach (DataJob inv in JobHelper.GetAllJobs())
                 Jobs.Add(inv);
         }
 
@@ -113,7 +113,7 @@ namespace Business_Software_V2
             if (string.IsNullOrEmpty(Searchbar.Text))
                 return true;
             else
-                return ((item as JobData).Address.ToString().IndexOf(Searchbar.Text, StringComparison.OrdinalIgnoreCase) >= 0);
+                return ((item as DataJob).Address.ToString().IndexOf(Searchbar.Text, StringComparison.OrdinalIgnoreCase) >= 0);
 
         }
 

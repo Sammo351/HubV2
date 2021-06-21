@@ -5,14 +5,14 @@ namespace Business_Software_V2
 {
     internal class JobHelper
     {
-        internal static IEnumerable<JobData> GetAllJobs()
+        internal static IEnumerable<DataJob> GetAllJobs()
         {
-            List<JobData> jobsList = new List<JobData>();
-            string[] jobs = Directory.GetFiles(JobData.JobDirectory);
+            List<DataJob> jobsList = new List<DataJob>();
+            string[] jobs = Directory.GetFiles(DataJob.JobDirectory);
             foreach (string job in jobs)
             {
                 string d = File.ReadAllText(job);
-                jobsList.Add(JobData.Load(d));
+                jobsList.Add(DataJob.Load(d));
 
             }
             return jobsList;

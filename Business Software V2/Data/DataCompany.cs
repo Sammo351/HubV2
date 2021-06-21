@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using Google.Cloud.Firestore;
 
 namespace Business_Software_V2
 {
     [System.Serializable]
+    [FirestoreData]
     public class DataCompany : INotifyPropertyChanged
     {
+
         string _abn;
+        [FirestoreProperty]
         public string ABN
         {
             get { return _abn; }
@@ -24,6 +28,7 @@ namespace Business_Software_V2
 
 
         string _email;
+        [FirestoreProperty]
         public string Email
         {
             get { return _email; }
@@ -39,6 +44,7 @@ namespace Business_Software_V2
         }
 
         string _companyName;
+        [FirestoreProperty]
         public string CompanyName
         {
             get { return _companyName; }
@@ -54,6 +60,7 @@ namespace Business_Software_V2
         }
 
         string _officeNumber;
+        [FirestoreProperty]
         public string OfficeNumber
         {
             get { return _officeNumber; }

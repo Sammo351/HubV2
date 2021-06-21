@@ -260,7 +260,7 @@ namespace Business_Software_V2
                 if (index == -1 && listBoxInvoice.Items.Count > 0)
                     index = 0;
 
-                if (listBoxInvoice.Items.GetItemAt(index) != null)
+                if (listBoxInvoice?.Items?.GetItemAt(index) != null)
                 {
 
                     DataInvoice i = listBoxInvoice.Items.GetItemAt(index) as DataInvoice;
@@ -271,6 +271,7 @@ namespace Business_Software_V2
             }
         }
 
+      
     }
 }
 

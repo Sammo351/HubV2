@@ -16,9 +16,9 @@ namespace Business_Software_V2
         {
             InitializeComponent();
 
-            string reader = File.ReadAllText(JobData.JobDirectory + "/Test.job");
-            this.DataContext = JsonConvert.DeserializeObject<JobData>(reader);
-            System.Windows.MessageBox.Show(((JobData)DataContext).guid.ToString());
+            //string reader = File.ReadAllText(DataJob.JobDirectory + "/Test.job");
+            //this.DataContext = JsonConvert.DeserializeObject<DataJob>(reader);
+            //System.Windows.MessageBox.Show(((DataJob)DataContext).guid.ToString());
 
         }
 

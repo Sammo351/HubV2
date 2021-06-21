@@ -1,5 +1,7 @@
 ﻿using Business_Software_V2.Data;
+using Google.Cloud.Firestore;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Business_Software_V2
@@ -23,23 +25,30 @@ namespace Business_Software_V2
             return null;
         }
 
-        internal static DataCompany[] GetAllCompanies()
+        internal static async System.Threading.Tasks.Task<DataCompany[]> GetAllCompanies()
         {
-            DataCompany[] companies = new DataCompany[ABNHelper.GetAllABNs().Length];
+            CollectionReference d = App.db.Collection("Trades");
+            IAsyncEnumerable<DocumentReference> refs = d.ListDocumentsAsync();
+            List<DataCompany> Companies = new List<DataCompany>();
+            IAsyncEnumerator<DocumentSnapshot> re = (IAsyncEnumerator<DocumentSnapshot>)d.StreamAsync();
 
-            string[] abns = ABNHelper.GetAllABNs();
-            for (int i = 0; i < abns.Length; i++)
+            await foreach (DocumentReference r in refs)
             {
-                companies[i] = GetCompany(abns[i]);
+                DocumentSnapshot s = await r.GetSnapshotAsync();
+                Companies.Add(s.ConvertTo<DataCompany>());
             }
-            return companies;
+
+
+            return Companies.ToArray();
         }
 
         internal static void SaveChanges(DataCompany dataCompany)
         {
             string dir = ABNHelper.GetDirectory(dataCompany.ABN);
             string filePath = dir + "/CompanyInfo.info";
-
+            DocumentReference d = App.db.Collection("Trades").Document(dataCompany.CompanyName);
+            d.SetAsync(dataCompany);
+            
             string s = JsonConvert.SerializeObject(dataCompany);
             StreamWriter writer = new StreamWriter(filePath);
             writer.Write(s);

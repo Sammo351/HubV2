@@ -13,12 +13,20 @@ namespace Business_Software_V2
         public CompanyList()
         {
             InitializeComponent();
+            GetAllCompanies();
+            DataContext = this;
+        }
 
-            foreach (DataCompany c in CompanyHelper.GetAllCompanies())
+        public async void GetAllCompanies()
+        {
+            DataCompany[] allCompanies = await CompanyHelper.GetAllCompanies();
+            for (int i = 0; i < allCompanies.Length; i++)
+            {
+                DataCompany c = allCompanies[i];
                 Companies.Add(c);
+            }
 
             ListboxCompanies.ItemsSource = Companies;
-            DataContext = this;
         }
 
         public ObservableCollection<DataCompany> Companies = new ObservableCollection<DataCompany>();

@@ -83,7 +83,7 @@
                 <TabItem Header="Invoices">
                     <TabItem.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Name="Header" Text="{Binding}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            <TextBlock Name="Header" Text="{Binding}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                         </DataTemplate>
                     </TabItem.HeaderTemplate>
 
@@ -92,7 +92,7 @@
                 <TabItem Header="Companies">
                     <TabItem.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                            <TextBlock Text="{Binding}"  VerticalAlignment="Center" HorizontalAlignment="Left" />
                         </DataTemplate>
                     </TabItem.HeaderTemplate>
                     <Frame Source="/Business Software V2;component/CompanyList.xaml"/>
@@ -100,11 +100,11 @@
                 <TabItem Header="Job Debug" >
                     <TabItem.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            <TextBlock Text="{Binding}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                         </DataTemplate>
                     </TabItem.HeaderTemplate>
 
-                    <Frame Source="/Business Software V2;component/JobList.xaml"/>
+                    <Frame Source="/Business Software V2;component/Pages/JobSitePage.xaml"/>
                 </TabItem>
             </TabControl>
 

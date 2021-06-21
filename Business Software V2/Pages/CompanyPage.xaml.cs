@@ -38,8 +38,14 @@ namespace Business_Software_V2
         void PopulateInvoices()
         {
             CompanyInvoices = new ObservableCollection<DataInvoice>();
+            if (DataContext == null)
+                return;
+
             foreach (DataInvoice inv in InvoiceHelper.GetAllInvoices())
             {
+                if (((DataCompany)DataContext).CompanyName == null)
+                    return;
+
                 if (inv.CompanyName == ((DataCompany)DataContext).CompanyName)
                     CompanyInvoices.Add(inv);
             }
@@ -155,10 +161,16 @@ namespace Business_Software_V2
         private void Sort(string sortBy, ListSortDirection direction)
         {
             ICollectionView dataView = CollectionViewSource.GetDefaultView(ListViewInvoices.ItemsSource);
-            dataView.SortDescriptions.Clear();
+            dataView?.SortDescriptions.Clear();
             SortDescription sd = new SortDescription(sortBy, direction);
             dataView.SortDescriptions.Add(sd);
             dataView.Refresh();
+        }
+
+        private void Update_PDFViewer(object sender, SelectionChangedEventArgs e)
+        {
+            Console.WriteLine(ListViewInvoices.SelectedItem.ToString());
+            InvoiceViewer.Navigate(((DataInvoice)ListViewInvoices.SelectedItem).FilePath);
         }
     }
 }

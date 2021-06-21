@@ -13,11 +13,13 @@ namespace Business_Software_V2
 
         public static void Setup()
         {
-            Directory.CreateDirectory(defaultPath);
+            
+            //Directory.CreateDirectory(defaultPath);
             for (int i = 0; i < RequiredFolders.Length; i++)
             {
-                string path = Path.Combine(defaultPath, RequiredFolders[i]);
-                Directory.CreateDirectory(path);
+                App.db.Collection(RequiredFolders[i]);
+                //string path = Path.Combine(defaultPath, RequiredFolders[i]);
+                //Directory.CreateDirectory(path);
             }
         }
 

@@ -5,7 +5,7 @@ using System.ComponentModel;
 namespace Business_Software_V2
 {
     [System.Serializable]
-    public class JobData : INotifyPropertyChanged
+    public class DataJob : INotifyPropertyChanged
     {
         public static string JobDirectory
         {
@@ -28,14 +28,14 @@ namespace Business_Software_V2
 
         public Guid guid;
 
-        public JobData()
+        public DataJob()
         {
             guid = Guid.NewGuid();
         }
 
-        public static JobData Load(string json)
+        public static DataJob Load(string json)
         {
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<JobData>(json);
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<DataJob>(json);
         }
 
         public string WriteJobToJson()

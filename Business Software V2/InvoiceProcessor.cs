@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Xceed.Document.NET;
 using Xceed.Words.NET;
 
 namespace Business_Software_V2
@@ -27,19 +28,11 @@ namespace Business_Software_V2
         public static ProcessedInvoice[] Process(string[] path)
         {
 
-            var Ocr = new IronOcr.AdvancedOcr()
+            var Ocr = new IronTesseract()
             {
-                CleanBackgroundNoise = true,
-                EnhanceContrast = true,
-                EnhanceResolution = true,
-                Language = IronOcr.Languages.English.OcrLanguagePack,
-                Strategy = IronOcr.AdvancedOcr.OcrStrategy.Advanced,
-                ColorSpace = AdvancedOcr.OcrColorSpace.Color,
-                DetectWhiteTextOnDarkBackgrounds = true,
-                InputImageType = AdvancedOcr.InputTypes.Document,
-                RotateAndStraighten = true,
-                ReadBarCodes = true,
-                ColorDepth = 4
+                Configuration = new TesseractConfiguration(),
+                Language = Languages.English.OcrLanguagePack,
+
             };
 
             Console.WriteLine(path.Length);
@@ -58,18 +51,20 @@ namespace Business_Software_V2
                 Console.WriteLine(stopwatch.Elapsed.TotalSeconds);
                 return tasks.Select(a => a.Result).ToArray();
             }
-            catch (Exception ex) { }
+            catch (Exception) { }
             return null;
         }
 
-        private static ProcessedInvoice ProcessDocument(string path, AdvancedOcr ocr)
+        private static ProcessedInvoice ProcessDocument(string path, IronTesseract ocr)
         {
             string text = "";
             if (System.IO.Path.GetExtension(path) == ".pdf")
             {
                 PdfReader reader = new PdfReader(path);
+
                 text = PdfTextExtractor.GetTextFromPage(reader, 1);
-                
+
+
             }
             else if (System.IO.Path.GetExtension(path) == ".docx")
             {
@@ -112,7 +107,7 @@ namespace Business_Software_V2
         {
 
             Regex rx = new Regex(@"ABN[:]([ \d]*?)$", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace | RegexOptions.Multiline);
-          //  Regex rx = new Regex(@"(\d{3}\s*\d{3}\s*\d{3}\s*\d{2})|(\d{2}\s *\d{3}\s *\d{3}\s*\d{3})", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
+            //  Regex rx = new Regex(@"(\d{3}\s*\d{3}\s*\d{3}\s*\d{2})|(\d{2}\s *\d{3}\s *\d{3}\s*\d{3})", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
             Regex email = new Regex(@"[\w\d\-]*[@][\w\d\-]*(.com.au|.com)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
             Regex phone = new Regex(@"(?:\+?61|0)[2-478 ](?:[ -]?[0-9]){8}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
@@ -151,24 +146,24 @@ namespace Business_Software_V2
         public static string FindLargestText(OcrResult result)
         {
 
-            OcrResult.OcrWord largestWord = result.Pages[0].Words[0];
+            OcrResult.Word largestWord = result.Pages[0].Words[0];
 
             for (int i = 0; i < result.Pages[0].Words.Length; i++)
             {
-                if (result.Pages[0].Words[i].FontSize > largestWord.FontSize)
+                if (result.Pages[0].Words[i].Font.FontSize > largestWord.Font.FontSize)
                     largestWord = result.Pages[0].Words[i];
             }
 
-            int lineNumber = largestWord.LineNumber;
+            int lineNumber = largestWord.Line.LineNumber;
             int numberInLine = largestWord.WordNumber;
 
-            var lineOfText = result.Pages[0].LinesOfText[lineNumber - 1];
+            var lineOfText = result.Pages[0].Lines[lineNumber - 1];
             int f = numberInLine;
             string textInLine = "";
 
-            for (int i = 0; i < lineOfText.WordCount; i++)
+            for (int i = 0; i < lineOfText.Words.Length; i++)
             {
-                if (lineOfText.Words[i].FontSize == largestWord.FontSize)
+                if (lineOfText.Words[i].Font.FontSize == largestWord.Font.FontSize)
                 {
                     textInLine += " " + lineOfText.Words[i].Text;
                 }
@@ -178,9 +173,8 @@ namespace Business_Software_V2
 
             return textInLine;
         }
-
-
     }
 
+       
 
 }

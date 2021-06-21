@@ -16,78 +16,45 @@ namespace Business_Software_V2
     {
 
         protected string User { get; set; }
-
         protected string Pwd { get; set; }
-
         protected string MailServer { get; set; }
-
         protected int Port { get; set; }
-
         public Pop3Client Pop3 { get; set; }
-
-        public EmailParser(string user, string pwd, string mailserver,
-
-                           int port)
-
+        public EmailParser(string user, string pwd, string mailserver, int port)
         {
-
             User = user;
-
             Pwd = pwd;
-
             MailServer = mailserver;
-
             Port = port;
-
             Pop3 = null;
-
         }
 
         public void OpenPop3()
-
         {
-
             if (Pop3 == null)
-
             {
-
                 Pop3 = new Pop3Client();
-
                 Pop3.Connect(this.MailServer, this.Port, false);
-
                 Pop3.AuthenticationMechanisms.Remove("XOAUTH2");
-
                 Pop3.Authenticate(this.User, this.Pwd);
-
             }
-
         }
 
         public void ClosePop3()
-
         {
-
             if (Pop3 != null)
-
             {
-
                 Pop3.Disconnect(true);
-
                 Pop3.Dispose();
-
                 Pop3 = null;
-
             }
-
         }
 
 
 
         public async Task DisplayPop3SubjectsAsync()
-
         {
             BotVisitor v = new BotVisitor();
-            
 
             for (int i = 0; i < Pop3?.Count; i++)
             {
@@ -95,7 +62,7 @@ namespace Business_Software_V2
                 MimeMessage message = Pop3.GetMessage(i);
                 v.Visit(message);
                 Console.WriteLine("Subject: {0}", message.Subject);
-                List<String> Messages = new List<string>();
+                List<string> Messages = new List<string>();
                 if (message.Attachments != null)
                 {
                     foreach (MimeEntity mime in message.Attachments)
@@ -128,7 +95,7 @@ namespace Business_Software_V2
                     body += Messages[j] + '\n';
                 }
 
-               service.Send("bot@wulfrunconstructions.com", address.Address, $"Re: {message.Subject}", body );
+           //    service.Send("bot@wulfrunconstructions.com", address.Address, $"Re: {message.Subject}", body );
                 
 
             }
